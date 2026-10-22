@@ -5,6 +5,18 @@
   "imports": {
     "#/*": "./src/*"
   },
+  "apps": {
+    "name": "HCM | Human Capital Management",
+    "version": "1.0.0",
+    "updatedAt": "20261022",
+    "contributors": [
+      "https://github.com/startdz"
+    ],
+    "profile": {
+      "name": "Fuad Jabbar Dzakwan",
+      "url": "https://github.com/startdz"
+    }
+  },
   "scripts": {
     "dev": "vite dev --port 3000",
     "generate-routes": "tsr generate",
