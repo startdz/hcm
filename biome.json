@@ -13,7 +13,9 @@
 			"**/index.html",
 			"**/vite.config.ts",
 			"!**/src/routeTree.gen.ts",
-			"!**/src/styles.css"
+			"!**/src/styles.css",
+			"!**/src/generated",
+			"!**/src/components/ui"
 		]
 	},
 	"formatter": {
@@ -33,4 +35,3 @@
 		}
 	}
 }
-

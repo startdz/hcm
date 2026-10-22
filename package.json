@@ -25,6 +25,7 @@
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check",
+    "format:lint": "biome check . --write",
     "post-cta-init": "bunx --bun create-db@latest --user-agent tanstack/tsrouter",
     "db:generate": "dotenv -e .env.local -- prisma generate",
     "db:push": "dotenv -e .env.local -- prisma db push",
