@@ -7,8 +7,166 @@ datasource db {
   provider = "postgresql"
 }
 
-model Todo {
-  id        Int      @id @default(autoincrement())
-  title     String
-  createdAt DateTime @default(now())
+model Company {
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name String @db.VarChar(150)
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  // RELATIONS
+  departments Department[]
+
+  @@map("companies")
+}
+
+model Department {
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String  @db.VarChar(150)
+  company_id String  @db.Uuid
+  company    Company @relation(fields: [company_id], references: [id])
+
+  employees Employee[]
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  @@index([company_id])
+  @@map("departments")
+}
+
+// AKSES AKUN HCM
+// AKUN USER BAGIAN DARIPADA KARYAWAN
+// SETIAP AKUN MEMILIKI BATASAN TERTENTU UNTUK MENGAKSES FITUR
+// FITUR DIBATASI OLEH PERMISSION
+model User {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username      String    @db.VarChar(100)
+  email         String    @unique @db.VarChar(150)
+  password_hash String    @db.VarChar(255)
+  employee      Employee?
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  @@map("users")
+}
+
+model Employee {
+  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  emp_number String         @unique @db.VarChar(35)
+  first_name String         @db.VarChar(100)
+  last_name  String?        @db.VarChar(100)
+  status     EmployeeStatus @default(ACTIVE)
+  role       Role
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  department    Department? @relation(fields: [department_id], references: [id])
+  department_id String?     @db.Uuid
+
+  user_id String? @unique @db.Uuid
+  user    User?   @relation(fields: [user_id], references: [id])
+
+  profile            EmployeeProfile?
+  employee_addresses EmployeeAddress[]
+  emergency_contacts EmployeeEmergencyContact[]
+
+  @@index([department_id])
+  @@map("employees")
+}
+
+model EmployeeProfile {
+  id             String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  profile_image  String?                @db.VarChar(255)
+  place_of_birth String                 @db.VarChar(150)
+  date_of_birth  DateTime               @db.Date
+  phone_number   String                 @db.VarChar(30)
+  gender         EmployeeGender
+  marital_status EmployeeMaritalStatus?
+
+  employee_id String   @unique @db.Uuid
+  employee    Employee @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  @@map("employee_profiles")
+}
+
+model EmployeeAddress {
+  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  country      String @db.VarChar(100)
+  city         String @db.VarChar(100)
+  district     String @db.VarChar(100)
+  subdistrict  String @db.VarChar(100)
+  zipcode      String @db.VarChar(20)
+  street       String @db.VarChar(150)
+  full_address String @db.VarChar(255)
+  label        String @db.VarChar(100)
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  employee_id String   @db.Uuid
+  employee    Employee @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+
+  employee_emergency_contacts   EmployeeEmergencyContact? @relation(fields: [employee_emergency_contact_id], references: [id])
+  employee_emergency_contact_id String?                   @db.Uuid
+
+  @@index([employee_id])
+  @@map("employee_addresses")
+}
+
+model EmployeeEmergencyContact {
+  id                  String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                String  @db.VarChar(100)
+  phone_number        String  @db.VarChar(30)
+  relationship_status String  @db.VarChar(50)
+  address             String? @db.VarChar(255)
+
+  employee_id String   @db.Uuid
+  employee    Employee @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+
+  created_at        DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime          @updatedAt @db.Timestamptz(6)
+  employeeAddresses EmployeeAddress[]
+
+  @@index([employee_id])
+  @@map("employee_emergency_contacts")
+}
+
+model Leave {
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name String @db.VarChar(100)
+
+  @@map("leaves")
+}
+
+enum EmployeeMaritalStatus {
+  SINGLE
+  MARIED
+  SEPARATED
+  DIVORCED
+  WIDOWED
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+  TERMINATED
+  MUTATED
+}
+
+enum EmployeeGender {
+  MALE
+  FEMALE
+}
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  HR_MANAGER
+  EMPLOYEE
 }
