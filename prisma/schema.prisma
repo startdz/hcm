@@ -8,13 +8,11 @@ datasource db {
 }
 
 model Company {
-  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name String @db.VarChar(150)
-
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String   @db.VarChar(150)
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @updatedAt @db.Timestamptz(6)
 
-  // RELATIONS
   departments Department[]
 
   @@map("companies")
@@ -24,32 +22,58 @@ model Department {
   id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name       String  @db.VarChar(150)
   company_id String  @db.Uuid
-  company    Company @relation(fields: [company_id], references: [id])
+  company    Company @relation(fields: [company_id], references: [id], onDelete: Restrict)
 
   employees Employee[]
 
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @updatedAt @db.Timestamptz(6)
 
+  @@unique([company_id, name])
   @@index([company_id])
   @@map("departments")
 }
 
-// AKSES AKUN HCM
-// AKUN USER BAGIAN DARIPADA KARYAWAN
-// SETIAP AKUN MEMILIKI BATASAN TERTENTU UNTUK MENGAKSES FITUR
-// FITUR DIBATASI OLEH PERMISSION
 model User {
   id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  username      String    @db.VarChar(100)
+  username      String    @unique @db.VarChar(100)
   email         String    @unique @db.VarChar(150)
   password_hash String    @db.VarChar(255)
+  is_active     Boolean   @default(true)
+  last_login_at DateTime? @db.Timestamptz(6)
+
   employee      Employee?
+  roles         UserRole[]
+  user_sessions Session[]
 
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @updatedAt @db.Timestamptz(6)
 
   @@map("users")
+}
+
+model Session {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  // SIMPAN HASH TOKEN, BUKAN MENTAH. DEFAULT BERTAHAN 7D
+  refresh_token_hash String @unique @db.VarChar(255)
+
+  ip         String? @db.VarChar(45)
+  user_agent String? @db.VarChar(500)
+
+  expires_at   DateTime  @db.Timestamptz(6)
+  last_used_at DateTime? @db.Timestamptz(6)
+  revoked_at   DateTime? @db.Timestamptz(6)
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  user_id String @db.Uuid
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@index([expires_at])
+  @@map("sessions")
 }
 
 model Employee {
@@ -58,32 +82,32 @@ model Employee {
   first_name String         @db.VarChar(100)
   last_name  String?        @db.VarChar(100)
   status     EmployeeStatus @default(ACTIVE)
-  role       Role
 
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  updated_at DateTime @updatedAt @db.Timestamptz(6)
-
-  department    Department? @relation(fields: [department_id], references: [id])
   department_id String?     @db.Uuid
+  department    Department? @relation(fields: [department_id], references: [id], onDelete: SetNull)
 
   user_id String? @unique @db.Uuid
-  user    User?   @relation(fields: [user_id], references: [id])
+  user    User?   @relation(fields: [user_id], references: [id], onDelete: SetNull)
 
   profile            EmployeeProfile?
   employee_addresses EmployeeAddress[]
   emergency_contacts EmployeeEmergencyContact[]
 
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
   @@index([department_id])
+  @@index([status])
   @@map("employees")
 }
 
 model EmployeeProfile {
   id             String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   profile_image  String?                @db.VarChar(255)
-  place_of_birth String                 @db.VarChar(150)
-  date_of_birth  DateTime               @db.Date
-  phone_number   String                 @db.VarChar(30)
-  gender         EmployeeGender
+  place_of_birth String?                @db.VarChar(150)
+  date_of_birth  DateTime?              @db.Date
+  phone_number   String?                @db.VarChar(30)
+  gender         EmployeeGender?
   marital_status EmployeeMaritalStatus?
 
   employee_id String   @unique @db.Uuid
@@ -96,24 +120,22 @@ model EmployeeProfile {
 }
 
 model EmployeeAddress {
-  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  country      String @db.VarChar(100)
-  city         String @db.VarChar(100)
-  district     String @db.VarChar(100)
-  subdistrict  String @db.VarChar(100)
-  zipcode      String @db.VarChar(20)
-  street       String @db.VarChar(150)
-  full_address String @db.VarChar(255)
-  label        String @db.VarChar(100)
-
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  updated_at DateTime @updatedAt @db.Timestamptz(6)
+  id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  country      String  @db.VarChar(100)
+  city         String  @db.VarChar(100)
+  district     String  @db.VarChar(100)
+  subdistrict  String  @db.VarChar(100)
+  zipcode      String  @db.VarChar(20)
+  street       String  @db.VarChar(150)
+  full_address String  @db.VarChar(255)
+  label        String  @db.VarChar(100)
+  is_primary   Boolean @default(false)
 
   employee_id String   @db.Uuid
   employee    Employee @relation(fields: [employee_id], references: [id], onDelete: Cascade)
 
-  employee_emergency_contacts   EmployeeEmergencyContact? @relation(fields: [employee_emergency_contact_id], references: [id])
-  employee_emergency_contact_id String?                   @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
 
   @@index([employee_id])
   @@map("employee_addresses")
@@ -129,24 +151,94 @@ model EmployeeEmergencyContact {
   employee_id String   @db.Uuid
   employee    Employee @relation(fields: [employee_id], references: [id], onDelete: Cascade)
 
-  created_at        DateTime          @default(now()) @db.Timestamptz(6)
-  updated_at        DateTime          @updatedAt @db.Timestamptz(6)
-  employeeAddresses EmployeeAddress[]
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
 
   @@index([employee_id])
   @@map("employee_emergency_contacts")
 }
 
+// RBAC: role dapat diberikan kepada banyak user.
+model Role {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String  @unique @db.VarChar(50)
+  name        String  @db.VarChar(100)
+  description String? @db.VarChar(255)
+  is_system   Boolean @default(false)
+  is_active   Boolean @default(true)
+
+  users       UserRole[]
+  permissions RolePermission[]
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  @@map("roles")
+}
+
+// Contoh code permission: employees.read, employees.create, leaves.approve.
+model Permission {
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String  @unique @db.VarChar(100)
+  name        String  @db.VarChar(100)
+  description String? @db.VarChar(255)
+  module      String  @db.VarChar(50)
+
+  roles RolePermission[]
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  @@index([module])
+  @@map("permissions")
+}
+
+model UserRole {
+  user_id     String   @db.Uuid
+  role_id     String   @db.Uuid
+  assigned_at DateTime @default(now()) @db.Timestamptz(6)
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [role_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, role_id])
+  @@index([role_id])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  role_id       String   @db.Uuid
+  permission_id String   @db.Uuid
+  granted_at    DateTime @default(now()) @db.Timestamptz(6)
+
+  role       Role       @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+
+  @@id([role_id, permission_id])
+  @@index([permission_id])
+  @@map("role_permissions")
+}
+
+// Master jenis cuti, bukan pengajuan cuti.
 model Leave {
-  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name String @db.VarChar(100)
+  id                String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code              String  @unique @db.VarChar(30)
+  name              String  @db.VarChar(100)
+  description       String? @db.VarChar(255)
+  default_days      Int?
+  is_paid           Boolean @default(true)
+  requires_approval Boolean @default(true)
+  is_active         Boolean @default(true)
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
 
   @@map("leaves")
 }
 
 enum EmployeeMaritalStatus {
   SINGLE
-  MARIED
+  MARRIED
   SEPARATED
   DIVORCED
   WIDOWED
@@ -162,11 +254,4 @@ enum EmployeeStatus {
 enum EmployeeGender {
   MALE
   FEMALE
-}
-
-enum Role {
-  SUPERADMIN
-  ADMIN
-  HR_MANAGER
-  EMPLOYEE
 }

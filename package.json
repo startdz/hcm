@@ -7,8 +7,8 @@
   },
   "apps": {
     "name": "HCM | Human Capital Management",
-    "version": "1.0.0",
-    "updatedAt": "20261022",
+    "version": "1.0.1",
+    "updatedAt": "20261026",
     "contributors": [
       "https://github.com/startdz"
     ],
@@ -31,7 +31,8 @@
     "db:push": "dotenv -e .env.local -- prisma db push",
     "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
     "db:studio": "dotenv -e .env.local -- prisma studio",
-    "db:seed": "dotenv -e .env.local -- prisma db seed"
+    "db:seed": "dotenv -e .env.local -- prisma db seed",
+    "db:validate": "dotenv -e .env.local -- prisma validate"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -55,6 +56,7 @@
     "@tanstack/react-store": "0.11.2",
     "@tanstack/react-table": "9.3.1",
     "@tanstack/store": "0.11.2",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.0",
     "nitro": "3.0.260610-beta",

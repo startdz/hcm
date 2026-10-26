@@ -24,7 +24,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "TanStack Start Starter",
+				title: "HCM Monitor",
 			},
 		],
 		links: [
@@ -35,6 +35,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 		],
 	}),
 	shellComponent: RootDocument,
+	notFoundComponent: () => <>Not Found Component</>,
+	errorComponent: () => <>Error Component</>,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {

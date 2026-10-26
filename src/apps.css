@@ -1,0 +1,6 @@
+@reference "./styles.css";
+
+/* CUSTOM INPUTGROUP STYLING */
+.input-group {
+	@apply overflow-hidden;
+}
