@@ -16,13 +16,7 @@ export function LoginForm({
 	className,
 	...props
 }: React.ComponentProps<"form">) {
-	const {
-		Field: Controller,
-		onSubmit,
-		Subscribe,
-		isPending,
-		isSuccess,
-	} = useLoginForm();
+	const { Field: Controller, onSubmit, Subscribe, isPending } = useLoginForm();
 	return (
 		<form
 			id={ID_FORM}
