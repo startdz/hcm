@@ -11,6 +11,8 @@
 export type * from './models/Company.ts'
 export type * from './models/Department.ts'
 export type * from './models/User.ts'
+export type * from './models/PasswordResetToken.ts'
+export type * from './models/Session.ts'
 export type * from './models/Employee.ts'
 export type * from './models/EmployeeProfile.ts'
 export type * from './models/EmployeeAddress.ts'

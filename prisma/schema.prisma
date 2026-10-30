@@ -42,14 +42,34 @@ model User {
   is_active     Boolean   @default(true)
   last_login_at DateTime? @db.Timestamptz(6)
 
-  employee      Employee?
-  roles         UserRole[]
-  user_sessions Session[]
+  employee              Employee?
+  roles                 UserRole[]
+  user_sessions         Session[]
+  password_reset_tokens PasswordResetToken[]
 
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @updatedAt @db.Timestamptz(6)
 
   @@map("users")
+}
+
+model PasswordResetToken {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  token_hash String    @unique @db.VarChar(255) // simpan HASH, bukan token mentah
+  expires_at DateTime  @db.Timestamptz(6)
+  used_at    DateTime? @db.Timestamptz(6)
+
+  ip         String? @db.VarChar(45)
+  user_agent String? @db.VarChar(500)
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  user_id String @db.Uuid
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@index([expires_at])
+  @@map("password_reset_tokens")
 }
 
 model Session {

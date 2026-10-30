@@ -1,14 +1,13 @@
 import { useForm } from "@tanstack/react-form";
+import { useRouter } from "@tanstack/react-router";
 import { type LoginInput, LoginSchema } from "#/schemas/schema.signin";
-import { useLogin } from "../hooks/hook.login";
+import { safeRedirect } from "#/utils/helpers/safe-redirect";
+import { useLogin } from "../hooks/hook.auth";
 
-export const useLoginForm = () => {
-	const {
-		mutate: loginMutate,
-		isPending,
-		isSuccess,
-		reset: resetMutate,
-	} = useLogin();
+export const useLoginForm = (redirectTo?: string) => {
+	const router = useRouter();
+
+	const { mutateAsync, isPending, error, reset } = useLogin();
 
 	const defaultValues = {
 		email: "",
@@ -19,18 +18,27 @@ export const useLoginForm = () => {
 		defaultValues,
 		validators: {
 			onSubmit: LoginSchema,
-			async onSubmitAsync({ value }) {
-				resetMutate();
-				loginMutate({ data: value });
-			},
+		},
+		onSubmit: async ({ value }) => {
+			reset();
+
+			try {
+				await mutateAsync(value);
+			} catch {
+				return; // pesan error sudah tersedia lewat `error`
+			}
+
+			// paksa beforeLoad root mengambil ulang status auth
+			await router.invalidate();
+			router.history.push(safeRedirect(redirectTo));
 		},
 	});
 
 	const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		e.stopPropagation();
-		form.handleSubmit();
+		void form.handleSubmit();
 	};
 
-	return { ...form, onSubmit, isPending, isSuccess };
+	return { ...form, onSubmit, isPending, error };
 };

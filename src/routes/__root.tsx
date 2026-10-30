@@ -6,14 +6,28 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { Toaster } from "#/components/ui/toast";
+import { TooltipProvider } from "#/components/ui/tooltip";
+import type { User } from "#/generated/prisma/client";
+import { getAuthFn } from "#/utils/services/auth/service.auth";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
 
-interface MyRouterContext {
-	queryClient: QueryClient;
+interface AuthState {
+	isAuthenticated: boolean;
+	user: Omit<User, "password_hash"> | null;
 }
 
-export const Route = createRootRouteWithContext<MyRouterContext>()({
+interface AppContext {
+	queryClient: QueryClient;
+	auth?: AuthState | null;
+}
+
+export const Route = createRootRouteWithContext<AppContext>()({
+	beforeLoad: async () => {
+		const auth = await getAuthFn();
+		return { auth };
+	},
 	head: () => ({
 		meta: [
 			{
@@ -46,7 +60,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body>
-				{children}
+				<TooltipProvider>{children}</TooltipProvider>
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",
@@ -60,6 +74,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					]}
 				/>
 				<Scripts />
+				<Toaster />
 			</body>
 		</html>
 	);

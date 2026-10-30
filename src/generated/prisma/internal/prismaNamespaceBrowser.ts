@@ -54,6 +54,8 @@ export const ModelName = {
   Company: 'Company',
   Department: 'Department',
   User: 'User',
+  PasswordResetToken: 'PasswordResetToken',
+  Session: 'Session',
   Employee: 'Employee',
   EmployeeProfile: 'EmployeeProfile',
   EmployeeAddress: 'EmployeeAddress',
@@ -114,6 +116,36 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  token_hash: 'token_hash',
+  expires_at: 'expires_at',
+  used_at: 'used_at',
+  ip: 'ip',
+  user_agent: 'user_agent',
+  created_at: 'created_at',
+  user_id: 'user_id'
+} as const
+
+export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
+
+
+export const SessionScalarFieldEnum = {
+  id: 'id',
+  refresh_token_hash: 'refresh_token_hash',
+  ip: 'ip',
+  user_agent: 'user_agent',
+  expires_at: 'expires_at',
+  last_used_at: 'last_used_at',
+  revoked_at: 'revoked_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  user_id: 'user_id'
+} as const
+
+export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
 export const EmployeeScalarFieldEnum = {

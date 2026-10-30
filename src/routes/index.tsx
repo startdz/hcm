@@ -1,8 +1,20 @@
 import { RiGalleryFill } from "@remixicon/react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import z from "zod";
 import { LoginForm } from "#/components/common/forms/login-form";
+import { safeRedirect } from "#/utils/helpers/safe-redirect";
 
-export const Route = createFileRoute("/")({ component: Home });
+export const Route = createFileRoute("/")({
+	validateSearch: z.object({
+		redirect: z.string().optional(),
+	}),
+	component: Home,
+	beforeLoad: ({ context, search }) => {
+		if (context.auth.isAuthenticated) {
+			throw redirect({ href: safeRedirect(search.redirect) });
+		}
+	},
+});
 
 function Home() {
 	return (

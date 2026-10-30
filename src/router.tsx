@@ -14,7 +14,22 @@ export function getRouter() {
 		defaultPreloadStaleTime: 0,
 	});
 
-	setupRouterSsrQueryIntegration({ router, queryClient: context.queryClient });
+	setupRouterSsrQueryIntegration({
+		router,
+		queryClient: context.queryClient,
+		dehydrateOptions: {
+			shouldDehydrateQuery: (query) => query.meta?.ssr !== false,
+		},
+		hydrateOptions: {
+			defaultOptions: {
+				queries: {
+					gcTime: 60_000,
+				},
+			},
+		},
+		handleRedirects: true,
+		wrapQueryClient: true,
+	});
 
 	return router;
 }

@@ -1,4 +1,6 @@
+import { RiEye2Fill, RiEyeCloseFill } from "@remixicon/react";
 import { cn } from "cn";
+import { useState } from "react";
 import { useLoginForm } from "#/utils/forms/login.form";
 import { errorState, invalidState } from "#/utils/helpers/form-helper";
 import { Button } from "@/components/ui/button";
@@ -9,19 +11,27 @@ import {
 	FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { InputGroup, InputGroupInput } from "../../ui/input-group";
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupButton,
+	InputGroupInput,
+} from "@/components/ui/input-group";
 
 const ID_FORM = "login-form";
 export function LoginForm({
 	className,
 	...props
 }: React.ComponentProps<"form">) {
+	const [openPw, setOpenPw] = useState(false);
 	const { Field: Controller, onSubmit, Subscribe, isPending } = useLoginForm();
+
 	return (
 		<form
 			id={ID_FORM}
 			onSubmit={onSubmit}
 			className={cn("flex flex-col gap-6", className)}
+			autoComplete="off"
 			{...props}
 		>
 			<FieldGroup>
@@ -82,17 +92,22 @@ export function LoginForm({
 									Forgot your password?
 								</a>
 							</div>
-							<InputGroup className="input-group">
+							<InputGroup className="overflow-hidden">
 								<InputGroupInput
 									id={field.name}
 									name={field.name}
-									type="password"
+									type={openPw ? "text" : "password"}
 									placeholder="Masukkan Password Anda."
 									data-invalid={invalidState(field)}
 									value={field.state.value}
 									onChange={(e) => field.handleChange(e.target.value)}
 									autoComplete="off"
 								/>
+								<InputGroupAddon align="inline-end">
+									<InputGroupButton onClick={() => setOpenPw((prev) => !prev)}>
+										{openPw ? <RiEye2Fill /> : <RiEyeCloseFill />}
+									</InputGroupButton>
+								</InputGroupAddon>
 							</InputGroup>
 							{invalidState(field) && <FieldError errors={errorState(field)} />}
 						</Field>
