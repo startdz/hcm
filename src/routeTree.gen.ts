@@ -14,6 +14,7 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
+import { Route as ProtectedHistoryRouteImport } from './routes/_protected/history'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,18 +40,25 @@ const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedHistoryRoute = ProtectedHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/history': typeof ProtectedHistoryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/history': typeof ProtectedHistoryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -59,12 +67,14 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_protected/dashboard': typeof ProtectedDashboardRoute
+  '/_protected/history': typeof ProtectedHistoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/forgot-password' | '/reset-password' | '/dashboard'
+  fullPaths:
+    '/' | '/forgot-password' | '/reset-password' | '/dashboard' | '/history'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/forgot-password' | '/reset-password' | '/dashboard'
+  to: '/' | '/forgot-password' | '/reset-password' | '/dashboard' | '/history'
   id:
     | '__root__'
     | '/'
@@ -72,6 +82,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/reset-password'
     | '/_protected/dashboard'
+    | '/_protected/history'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -118,15 +129,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/history': {
+      id: '/_protected/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof ProtectedHistoryRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
   }
 }
 
 interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
+  ProtectedHistoryRoute: typeof ProtectedHistoryRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
+  ProtectedHistoryRoute: ProtectedHistoryRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
