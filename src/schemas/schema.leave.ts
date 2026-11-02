@@ -55,5 +55,11 @@ export const ReviewLeaveRequestSchema = z.object({
 	decision_note: z.string().trim().max(1000).nullable(),
 });
 
+export const LeaveReportFilterSchema = z.object({
+	period: z.enum(["daily", "weekly", "monthly", "yearly"]),
+	date: leaveDate,
+});
+
 export type LeaveTypeInput = z.infer<typeof LeaveTypeInputSchema>;
 export type LeaveRequestInput = z.infer<typeof LeaveRequestInputSchema>;
+export type LeaveReportFilter = z.infer<typeof LeaveReportFilterSchema>;

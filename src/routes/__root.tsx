@@ -11,6 +11,8 @@ import { TooltipProvider } from "#/components/ui/tooltip";
 import { getAuthFn } from "#/utils/services/auth/service.auth";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
+import { NotFoundComponent } from "#/components/common/errors/notfound";
+import { ErrorGlobalComponent } from "#/components/common/errors/error-globals";
 
 interface AuthState {
 	isAuthenticated: boolean;
@@ -53,8 +55,8 @@ export const Route = createRootRouteWithContext<AppContext>()({
 		],
 	}),
 	shellComponent: RootDocument,
-	notFoundComponent: () => <>Not Found Component</>,
-	errorComponent: () => <>Error Component</>,
+	notFoundComponent: NotFoundComponent,
+	errorComponent: ErrorGlobalComponent,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {

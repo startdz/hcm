@@ -18,6 +18,7 @@ import { Route as ProtectedEmployeesRouteImport } from './routes/_protected/empl
 import { Route as ProtectedHistoryRouteImport } from './routes/_protected/history'
 import { Route as ProtectedAttendanceLeavesRouteImport } from './routes/_protected/attendance/leaves'
 import { Route as ProtectedMastersLeavesRouteImport } from './routes/_protected/masters/leaves'
+import { Route as ProtectedReportsLeavesRouteImport } from './routes/_protected/reports/leaves'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +65,11 @@ const ProtectedMastersLeavesRoute = ProtectedMastersLeavesRouteImport.update({
   path: '/masters/leaves',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedReportsLeavesRoute = ProtectedReportsLeavesRouteImport.update({
+  id: '/reports/leaves',
+  path: '/reports/leaves',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/history': typeof ProtectedHistoryRoute
   '/attendance/leaves': typeof ProtectedAttendanceLeavesRoute
   '/masters/leaves': typeof ProtectedMastersLeavesRoute
+  '/reports/leaves': typeof ProtectedReportsLeavesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/history': typeof ProtectedHistoryRoute
   '/attendance/leaves': typeof ProtectedAttendanceLeavesRoute
   '/masters/leaves': typeof ProtectedMastersLeavesRoute
+  '/reports/leaves': typeof ProtectedReportsLeavesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -96,6 +104,7 @@ export interface FileRoutesById {
   '/_protected/history': typeof ProtectedHistoryRoute
   '/_protected/attendance/leaves': typeof ProtectedAttendanceLeavesRoute
   '/_protected/masters/leaves': typeof ProtectedMastersLeavesRoute
+  '/_protected/reports/leaves': typeof ProtectedReportsLeavesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/attendance/leaves'
     | '/masters/leaves'
+    | '/reports/leaves'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/attendance/leaves'
     | '/masters/leaves'
+    | '/reports/leaves'
   id:
     | '__root__'
     | '/'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/_protected/history'
     | '/_protected/attendance/leaves'
     | '/_protected/masters/leaves'
+    | '/_protected/reports/leaves'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -203,6 +215,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedMastersLeavesRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/reports/leaves': {
+      id: '/_protected/reports/leaves'
+      path: '/reports/leaves'
+      fullPath: '/reports/leaves'
+      preLoaderRoute: typeof ProtectedReportsLeavesRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
   }
 }
 
@@ -212,6 +231,7 @@ interface ProtectedRouteChildren {
   ProtectedHistoryRoute: typeof ProtectedHistoryRoute
   ProtectedAttendanceLeavesRoute: typeof ProtectedAttendanceLeavesRoute
   ProtectedMastersLeavesRoute: typeof ProtectedMastersLeavesRoute
+  ProtectedReportsLeavesRoute: typeof ProtectedReportsLeavesRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
@@ -220,6 +240,7 @@ const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedHistoryRoute: ProtectedHistoryRoute,
   ProtectedAttendanceLeavesRoute: ProtectedAttendanceLeavesRoute,
   ProtectedMastersLeavesRoute: ProtectedMastersLeavesRoute,
+  ProtectedReportsLeavesRoute: ProtectedReportsLeavesRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(

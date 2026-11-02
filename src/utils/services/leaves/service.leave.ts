@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { prisma } from "#/db";
 import { Prisma } from "#/generated/prisma/client";
 import {
+	LeaveReportFilterSchema,
 	LeaveRequestInputSchema,
 	LeaveTypeIdSchema,
 	LeaveTypeInputSchema,
@@ -12,6 +13,7 @@ import { AppError } from "#/utils/helpers/app-error";
 import { employeeAdminMiddleware } from "#/utils/middlewares/middleware.employee-admin";
 import { leaveEmployeeMiddleware } from "#/utils/middlewares/middleware.leave-employee";
 import { leaveHrMiddleware } from "#/utils/middlewares/middleware.leave-hr";
+import { leaveReportMiddleware } from "#/utils/middlewares/middleware.leave-report";
 
 const activeRequestStatuses = ["PENDING", "APPROVED"] as const;
 
@@ -353,6 +355,85 @@ export const reviewLeaveRequestFn = createServerFn({ method: "POST" })
 			}
 
 			return { success: true as const };
+		} catch (error) {
+			return handleLeaveError(error);
+		}
+	});
+
+function getLeaveReportRange(
+	period: "daily" | "weekly" | "monthly" | "yearly",
+	anchorDate: string,
+) {
+	const [yearText, monthText, dayText] = anchorDate.split("-");
+	const year = Number(yearText);
+	const month = Number(monthText) - 1;
+	const day = Number(dayText);
+	const anchor = new Date(Date.UTC(year, month, day));
+	let start = new Date(anchor);
+	let end = new Date(anchor);
+
+	if (period === "weekly") {
+		const daysSinceMonday = (anchor.getUTCDay() + 6) % 7;
+		start.setUTCDate(anchor.getUTCDate() - daysSinceMonday);
+		end.setUTCDate(start.getUTCDate() + 6);
+	} else if (period === "monthly") {
+		start = new Date(Date.UTC(year, month, 1));
+		end = new Date(Date.UTC(year, month + 1, 0));
+	} else if (period === "yearly") {
+		start = new Date(Date.UTC(year, 0, 1));
+		end = new Date(Date.UTC(year, 11, 31));
+	}
+
+	return {
+		startDate: start,
+		endDate: end,
+		startLabel: start.toISOString().slice(0, 10),
+		endLabel: end.toISOString().slice(0, 10),
+	};
+}
+
+export const getLeaveReportFn = createServerFn({ method: "GET" })
+	.middleware([leaveReportMiddleware])
+	.validator(LeaveReportFilterSchema)
+	.handler(async ({ data }) => {
+		try {
+			const range = getLeaveReportRange(data.period, data.date);
+			const requests = await prisma.leaveRequest.findMany({
+				where: {
+					start_date: { lte: range.endDate },
+					end_date: { gte: range.startDate },
+				},
+				include: {
+					leave: { select: { code: true, name: true, is_paid: true } },
+					employee: {
+						select: {
+							emp_number: true,
+							first_name: true,
+							last_name: true,
+							department: { select: { name: true } },
+						},
+					},
+					reviewed_by: { select: { username: true } },
+				},
+				orderBy: [{ start_date: "asc" }, { employee: { first_name: "asc" } }],
+			});
+
+			return {
+				period: data.period,
+				anchorDate: data.date,
+				startDate: range.startLabel,
+				endDate: range.endLabel,
+				summary: {
+					total: requests.length,
+					pending: requests.filter((request) => request.status === "PENDING")
+						.length,
+					approved: requests.filter((request) => request.status === "APPROVED")
+						.length,
+					rejected: requests.filter((request) => request.status === "REJECTED")
+						.length,
+				},
+				requests,
+			};
 		} catch (error) {
 			return handleLeaveError(error);
 		}

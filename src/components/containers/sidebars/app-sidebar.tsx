@@ -219,6 +219,10 @@ const data = {
 					title: "Laporan Penggajian",
 					url: "/reports/payroll",
 				},
+				{
+					title: "Laporan Cuti",
+					url: "/reports/leaves",
+				},
 			],
 		},
 		{
@@ -278,6 +282,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const canAccessLeaveRequests = user.roles.some((role) =>
 		["HR_MANAGER", "EMPLOYEE"].includes(role),
 	);
+	const canAccessLeaveReport = user.roles.some((role) =>
+		["HR_MANAGER", "ADMIN", "SUPERADMIN"].includes(role),
+	);
 	const navMain = data.navMain
 		.filter((item) => item.title !== "Kepegawaian" || canManageEmployees)
 		.map((item) =>
@@ -287,6 +294,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 						items: item.items?.filter(
 							(subItem) =>
 								subItem.title !== "Pengajuan Cuti" || canAccessLeaveRequests,
+						),
+					}
+				: item,
+		)
+		.map((item) =>
+			item.title === "Laporan"
+				? {
+						...item,
+						items: item.items?.filter(
+							(subItem) =>
+								subItem.title !== "Laporan Cuti" || canAccessLeaveReport,
 						),
 					}
 				: item,
