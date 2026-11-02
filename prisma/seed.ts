@@ -395,7 +395,7 @@ async function main() {
     })
   }
 
-  // 11. Regular employee
+  // 11. Regular employee 1
   const employeeUser = await prisma.user.upsert({
     where: { username: 'employee.demo' },
     update: {
@@ -440,7 +440,54 @@ async function main() {
     },
   })
 
-  // 12. Leave types
+  // 12. Regular employee 2
+  const employeeUser2 = await prisma.user.upsert({
+    where: { username: 'employee2.demo' },
+    update: {
+      password_hash: passwordHash,
+      is_active: true,
+    },
+    create: {
+      username: 'employee2.demo',
+      email: 'employee2.demo@example.com',
+      password_hash: passwordHash,
+    },
+  })
+
+  const employee2 = await prisma.employee.upsert({
+    where: { emp_number: 'EMP-0003' },
+    update: {
+      first_name: 'Demo',
+      last_name: 'Employee 2',
+      department_id: itDepartment.id,
+      status: 'ACTIVE',
+      user_id: employeeUser2.id,
+    },
+    create: {
+      emp_number: 'EMP-0003',
+      first_name: 'Demo',
+      last_name: 'Employee 2',
+      department_id: itDepartment.id,
+      status: 'ACTIVE',
+      user_id: employeeUser2.id,
+    },
+  })
+
+  await prisma.userRole.upsert({
+    where: {
+      user_id_role_id: {
+        user_id: employeeUser2.id,
+        role_id: roleByCode.EMPLOYEE.id,
+      },
+    },
+    update: {},
+    create: {
+      user_id: employeeUser2.id,
+      role_id: roleByCode.EMPLOYEE.id,
+    },
+  })
+
+  // 13. Leave types
   const leaveDefinitions = [
     {
       code: 'ANNUAL',
@@ -488,6 +535,7 @@ async function main() {
   console.log(`🔐 Roles: ${roles.length}`)
   console.log(`🛡️ Permissions: ${permissions.length}`)
   console.log(`👤 Demo employee: ${employee.emp_number}`)
+  console.log(`👤 Demo employee 2: ${employee2.emp_number}`)
   console.log('🔑 Demo usernames: admin, hr.manager, employee.demo')
   console.log('🔑 All demo accounts use SEED_ADMIN_PASSWORD')
 }
