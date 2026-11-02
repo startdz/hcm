@@ -210,6 +210,7 @@ export type UserWhereInput = {
   roles?: Prisma.UserRoleListRelationFilter
   user_sessions?: Prisma.SessionListRelationFilter
   password_reset_tokens?: Prisma.PasswordResetTokenListRelationFilter
+  reviewed_leave_requests?: Prisma.LeaveRequestListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -225,6 +226,7 @@ export type UserOrderByWithRelationInput = {
   roles?: Prisma.UserRoleOrderByRelationAggregateInput
   user_sessions?: Prisma.SessionOrderByRelationAggregateInput
   password_reset_tokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
+  reviewed_leave_requests?: Prisma.LeaveRequestOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -243,6 +245,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   roles?: Prisma.UserRoleListRelationFilter
   user_sessions?: Prisma.SessionListRelationFilter
   password_reset_tokens?: Prisma.PasswordResetTokenListRelationFilter
+  reviewed_leave_requests?: Prisma.LeaveRequestListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -286,6 +289,7 @@ export type UserCreateInput = {
   roles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
   user_sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   password_reset_tokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviewed_leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutReviewed_byInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -301,6 +305,7 @@ export type UserUncheckedCreateInput = {
   roles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
   user_sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   password_reset_tokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutReviewed_byInput
 }
 
 export type UserUpdateInput = {
@@ -316,6 +321,7 @@ export type UserUpdateInput = {
   roles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
   user_sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   password_reset_tokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUpdateManyWithoutReviewed_byNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -331,6 +337,7 @@ export type UserUncheckedUpdateInput = {
   roles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
   user_sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   password_reset_tokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutReviewed_byNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -475,6 +482,22 @@ export type UserUpdateOneRequiredWithoutRolesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRolesInput, Prisma.UserUpdateWithoutRolesInput>, Prisma.UserUncheckedUpdateWithoutRolesInput>
 }
 
+export type UserCreateNestedOneWithoutReviewed_leave_requestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewed_leave_requestsInput, Prisma.UserUncheckedCreateWithoutReviewed_leave_requestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewed_leave_requestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutReviewed_leave_requestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewed_leave_requestsInput, Prisma.UserUncheckedCreateWithoutReviewed_leave_requestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewed_leave_requestsInput
+  upsert?: Prisma.UserUpsertWithoutReviewed_leave_requestsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewed_leave_requestsInput, Prisma.UserUpdateWithoutReviewed_leave_requestsInput>, Prisma.UserUncheckedUpdateWithoutReviewed_leave_requestsInput>
+}
+
 export type UserCreateWithoutPassword_reset_tokensInput = {
   id?: string
   username: string
@@ -487,6 +510,7 @@ export type UserCreateWithoutPassword_reset_tokensInput = {
   employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput
   roles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
   user_sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  reviewed_leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutReviewed_byInput
 }
 
 export type UserUncheckedCreateWithoutPassword_reset_tokensInput = {
@@ -501,6 +525,7 @@ export type UserUncheckedCreateWithoutPassword_reset_tokensInput = {
   employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput
   roles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
   user_sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutReviewed_byInput
 }
 
 export type UserCreateOrConnectWithoutPassword_reset_tokensInput = {
@@ -531,6 +556,7 @@ export type UserUpdateWithoutPassword_reset_tokensInput = {
   employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput
   roles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
   user_sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUpdateManyWithoutReviewed_byNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPassword_reset_tokensInput = {
@@ -545,6 +571,7 @@ export type UserUncheckedUpdateWithoutPassword_reset_tokensInput = {
   employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput
   roles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
   user_sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutReviewed_byNestedInput
 }
 
 export type UserCreateWithoutUser_sessionsInput = {
@@ -559,6 +586,7 @@ export type UserCreateWithoutUser_sessionsInput = {
   employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput
   roles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
   password_reset_tokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviewed_leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutReviewed_byInput
 }
 
 export type UserUncheckedCreateWithoutUser_sessionsInput = {
@@ -573,6 +601,7 @@ export type UserUncheckedCreateWithoutUser_sessionsInput = {
   employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput
   roles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
   password_reset_tokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutReviewed_byInput
 }
 
 export type UserCreateOrConnectWithoutUser_sessionsInput = {
@@ -603,6 +632,7 @@ export type UserUpdateWithoutUser_sessionsInput = {
   employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput
   roles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
   password_reset_tokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUpdateManyWithoutReviewed_byNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUser_sessionsInput = {
@@ -617,6 +647,7 @@ export type UserUncheckedUpdateWithoutUser_sessionsInput = {
   employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput
   roles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
   password_reset_tokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutReviewed_byNestedInput
 }
 
 export type UserCreateWithoutEmployeeInput = {
@@ -631,6 +662,7 @@ export type UserCreateWithoutEmployeeInput = {
   roles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
   user_sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   password_reset_tokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviewed_leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutReviewed_byInput
 }
 
 export type UserUncheckedCreateWithoutEmployeeInput = {
@@ -645,6 +677,7 @@ export type UserUncheckedCreateWithoutEmployeeInput = {
   roles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
   user_sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   password_reset_tokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutReviewed_byInput
 }
 
 export type UserCreateOrConnectWithoutEmployeeInput = {
@@ -675,6 +708,7 @@ export type UserUpdateWithoutEmployeeInput = {
   roles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
   user_sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   password_reset_tokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUpdateManyWithoutReviewed_byNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmployeeInput = {
@@ -689,6 +723,7 @@ export type UserUncheckedUpdateWithoutEmployeeInput = {
   roles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
   user_sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   password_reset_tokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutReviewed_byNestedInput
 }
 
 export type UserCreateWithoutRolesInput = {
@@ -703,6 +738,7 @@ export type UserCreateWithoutRolesInput = {
   employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput
   user_sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   password_reset_tokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  reviewed_leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutReviewed_byInput
 }
 
 export type UserUncheckedCreateWithoutRolesInput = {
@@ -717,6 +753,7 @@ export type UserUncheckedCreateWithoutRolesInput = {
   employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput
   user_sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   password_reset_tokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutReviewed_byInput
 }
 
 export type UserCreateOrConnectWithoutRolesInput = {
@@ -747,6 +784,7 @@ export type UserUpdateWithoutRolesInput = {
   employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput
   user_sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   password_reset_tokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUpdateManyWithoutReviewed_byNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRolesInput = {
@@ -761,6 +799,83 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput
   user_sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   password_reset_tokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  reviewed_leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutReviewed_byNestedInput
+}
+
+export type UserCreateWithoutReviewed_leave_requestsInput = {
+  id?: string
+  username: string
+  email: string
+  password_hash: string
+  is_active?: boolean
+  last_login_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput
+  roles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
+  user_sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  password_reset_tokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReviewed_leave_requestsInput = {
+  id?: string
+  username: string
+  email: string
+  password_hash: string
+  is_active?: boolean
+  last_login_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
+  user_sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  password_reset_tokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReviewed_leave_requestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewed_leave_requestsInput, Prisma.UserUncheckedCreateWithoutReviewed_leave_requestsInput>
+}
+
+export type UserUpsertWithoutReviewed_leave_requestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewed_leave_requestsInput, Prisma.UserUncheckedUpdateWithoutReviewed_leave_requestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewed_leave_requestsInput, Prisma.UserUncheckedCreateWithoutReviewed_leave_requestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewed_leave_requestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewed_leave_requestsInput, Prisma.UserUncheckedUpdateWithoutReviewed_leave_requestsInput>
+}
+
+export type UserUpdateWithoutReviewed_leave_requestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput
+  roles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
+  user_sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  password_reset_tokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewed_leave_requestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
+  user_sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  password_reset_tokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -772,12 +887,14 @@ export type UserCountOutputType = {
   roles: number
   user_sessions: number
   password_reset_tokens: number
+  reviewed_leave_requests: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   roles?: boolean | UserCountOutputTypeCountRolesArgs
   user_sessions?: boolean | UserCountOutputTypeCountUser_sessionsArgs
   password_reset_tokens?: boolean | UserCountOutputTypeCountPassword_reset_tokensArgs
+  reviewed_leave_requests?: boolean | UserCountOutputTypeCountReviewed_leave_requestsArgs
 }
 
 /**
@@ -811,6 +928,13 @@ export type UserCountOutputTypeCountPassword_reset_tokensArgs<ExtArgs extends ru
   where?: Prisma.PasswordResetTokenWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewed_leave_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LeaveRequestWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -825,6 +949,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   user_sessions?: boolean | Prisma.User$user_sessionsArgs<ExtArgs>
   password_reset_tokens?: boolean | Prisma.User$password_reset_tokensArgs<ExtArgs>
+  reviewed_leave_requests?: boolean | Prisma.User$reviewed_leave_requestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -867,6 +992,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   user_sessions?: boolean | Prisma.User$user_sessionsArgs<ExtArgs>
   password_reset_tokens?: boolean | Prisma.User$password_reset_tokensArgs<ExtArgs>
+  reviewed_leave_requests?: boolean | Prisma.User$reviewed_leave_requestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -879,6 +1005,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     roles: Prisma.$UserRolePayload<ExtArgs>[]
     user_sessions: Prisma.$SessionPayload<ExtArgs>[]
     password_reset_tokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
+    reviewed_leave_requests: Prisma.$LeaveRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1287,6 +1414,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   roles<T extends Prisma.User$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user_sessions<T extends Prisma.User$user_sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$user_sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   password_reset_tokens<T extends Prisma.User$password_reset_tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$password_reset_tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewed_leave_requests<T extends Prisma.User$reviewed_leave_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewed_leave_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1805,6 +1933,30 @@ export type User$password_reset_tokensArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.PasswordResetTokenScalarFieldEnum | Prisma.PasswordResetTokenScalarFieldEnum[]
+}
+
+/**
+ * User.reviewed_leave_requests
+ */
+export type User$reviewed_leave_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LeaveRequest
+   */
+  select?: Prisma.LeaveRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LeaveRequest
+   */
+  omit?: Prisma.LeaveRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeaveRequestInclude<ExtArgs> | null
+  where?: Prisma.LeaveRequestWhereInput
+  orderBy?: Prisma.LeaveRequestOrderByWithRelationInput | Prisma.LeaveRequestOrderByWithRelationInput[]
+  cursor?: Prisma.LeaveRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LeaveRequestScalarFieldEnum | Prisma.LeaveRequestScalarFieldEnum[]
 }
 
 /**

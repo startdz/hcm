@@ -248,8 +248,8 @@ const data = {
 
 	projects: [
 		{
-			name: "Data Master",
-			url: "/masters",
+			name: "Master Jenis Cuti",
+			url: "/masters/leaves",
 			icon: RiDatabase2Line,
 		},
 		{
@@ -274,9 +274,26 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const canManageEmployees = user.roles.some((role) =>
 		["SUPERADMIN", "ADMIN"].includes(role),
 	);
-	const navMain = canManageEmployees
-		? data.navMain
-		: data.navMain.filter((item) => item.title !== "Kepegawaian");
+	const canManageLeaveTypes = canManageEmployees;
+	const canAccessLeaveRequests = user.roles.some((role) =>
+		["HR_MANAGER", "EMPLOYEE"].includes(role),
+	);
+	const navMain = data.navMain
+		.filter((item) => item.title !== "Kepegawaian" || canManageEmployees)
+		.map((item) =>
+			item.title === "Kehadiran"
+				? {
+						...item,
+						items: item.items?.filter(
+							(subItem) =>
+								subItem.title !== "Pengajuan Cuti" || canAccessLeaveRequests,
+						),
+					}
+				: item,
+		);
+	const projects = data.projects.filter(
+		(project) => project.name !== "Master Jenis Cuti" || canManageLeaveTypes,
+	);
 
 	return (
 		<Sidebar collapsible="icon" {...props}>
@@ -285,7 +302,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			</SidebarHeader>
 			<SidebarContent>
 				<NavMain items={navMain} />
-				<NavProjects projects={data.projects} />
+				<NavProjects projects={projects} />
 			</SidebarContent>
 			<SidebarFooter>
 				<NavUser

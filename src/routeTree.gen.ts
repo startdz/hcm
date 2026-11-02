@@ -16,6 +16,8 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ProtectedEmployeesRouteImport } from './routes/_protected/employees'
 import { Route as ProtectedHistoryRouteImport } from './routes/_protected/history'
+import { Route as ProtectedAttendanceLeavesRouteImport } from './routes/_protected/attendance/leaves'
+import { Route as ProtectedMastersLeavesRouteImport } from './routes/_protected/masters/leaves'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -51,6 +53,17 @@ const ProtectedHistoryRoute = ProtectedHistoryRouteImport.update({
   path: '/history',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedAttendanceLeavesRoute =
+  ProtectedAttendanceLeavesRouteImport.update({
+    id: '/attendance/leaves',
+    path: '/attendance/leaves',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedMastersLeavesRoute = ProtectedMastersLeavesRouteImport.update({
+  id: '/masters/leaves',
+  path: '/masters/leaves',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,6 +72,8 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof ProtectedDashboardRoute
   '/employees': typeof ProtectedEmployeesRoute
   '/history': typeof ProtectedHistoryRoute
+  '/attendance/leaves': typeof ProtectedAttendanceLeavesRoute
+  '/masters/leaves': typeof ProtectedMastersLeavesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -67,6 +82,8 @@ export interface FileRoutesByTo {
   '/dashboard': typeof ProtectedDashboardRoute
   '/employees': typeof ProtectedEmployeesRoute
   '/history': typeof ProtectedHistoryRoute
+  '/attendance/leaves': typeof ProtectedAttendanceLeavesRoute
+  '/masters/leaves': typeof ProtectedMastersLeavesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,6 +94,8 @@ export interface FileRoutesById {
   '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_protected/employees': typeof ProtectedEmployeesRoute
   '/_protected/history': typeof ProtectedHistoryRoute
+  '/_protected/attendance/leaves': typeof ProtectedAttendanceLeavesRoute
+  '/_protected/masters/leaves': typeof ProtectedMastersLeavesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -87,6 +106,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/employees'
     | '/history'
+    | '/attendance/leaves'
+    | '/masters/leaves'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -95,6 +116,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/employees'
     | '/history'
+    | '/attendance/leaves'
+    | '/masters/leaves'
   id:
     | '__root__'
     | '/'
@@ -104,6 +127,8 @@ export interface FileRouteTypes {
     | '/_protected/dashboard'
     | '/_protected/employees'
     | '/_protected/history'
+    | '/_protected/attendance/leaves'
+    | '/_protected/masters/leaves'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -164,6 +189,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedHistoryRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/attendance/leaves': {
+      id: '/_protected/attendance/leaves'
+      path: '/attendance/leaves'
+      fullPath: '/attendance/leaves'
+      preLoaderRoute: typeof ProtectedAttendanceLeavesRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/masters/leaves': {
+      id: '/_protected/masters/leaves'
+      path: '/masters/leaves'
+      fullPath: '/masters/leaves'
+      preLoaderRoute: typeof ProtectedMastersLeavesRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
   }
 }
 
@@ -171,12 +210,16 @@ interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
   ProtectedEmployeesRoute: typeof ProtectedEmployeesRoute
   ProtectedHistoryRoute: typeof ProtectedHistoryRoute
+  ProtectedAttendanceLeavesRoute: typeof ProtectedAttendanceLeavesRoute
+  ProtectedMastersLeavesRoute: typeof ProtectedMastersLeavesRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
   ProtectedEmployeesRoute: ProtectedEmployeesRoute,
   ProtectedHistoryRoute: ProtectedHistoryRoute,
+  ProtectedAttendanceLeavesRoute: ProtectedAttendanceLeavesRoute,
+  ProtectedMastersLeavesRoute: ProtectedMastersLeavesRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
