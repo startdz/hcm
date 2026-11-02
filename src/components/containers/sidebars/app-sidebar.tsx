@@ -219,6 +219,10 @@ const data = {
 					title: "Laporan Penggajian",
 					url: "/reports/payroll",
 				},
+				{
+					title: "Laporan Cuti",
+					url: "/reports/leaves",
+				},
 			],
 		},
 		{
