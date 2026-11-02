@@ -78,7 +78,7 @@ const data = {
 				},
 				{
 					title: "Tambah Karyawan",
-					url: "/employees",
+					url: "/employees/create",
 				},
 				{
 					title: "Onboarding",
@@ -219,10 +219,6 @@ const data = {
 					title: "Laporan Penggajian",
 					url: "/reports/payroll",
 				},
-				{
-					title: "Laporan Cuti",
-					url: "/reports/leaves",
-				},
 			],
 		},
 		{
@@ -252,8 +248,8 @@ const data = {
 
 	projects: [
 		{
-			name: "Master Jenis Cuti",
-			url: "/masters/leaves",
+			name: "Data Master",
+			url: "/masters",
 			icon: RiDatabase2Line,
 		},
 		{

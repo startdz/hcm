@@ -14,11 +14,7 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
-import { Route as ProtectedEmployeesRouteImport } from './routes/_protected/employees'
 import { Route as ProtectedHistoryRouteImport } from './routes/_protected/history'
-import { Route as ProtectedAttendanceLeavesRouteImport } from './routes/_protected/attendance/leaves'
-import { Route as ProtectedMastersLeavesRouteImport } from './routes/_protected/masters/leaves'
-import { Route as ProtectedReportsLeavesRouteImport } from './routes/_protected/reports/leaves'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -44,30 +40,9 @@ const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedRoute,
 } as any)
-const ProtectedEmployeesRoute = ProtectedEmployeesRouteImport.update({
-  id: '/employees',
-  path: '/employees',
-  getParentRoute: () => ProtectedRoute,
-} as any)
 const ProtectedHistoryRoute = ProtectedHistoryRouteImport.update({
   id: '/history',
   path: '/history',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-const ProtectedAttendanceLeavesRoute =
-  ProtectedAttendanceLeavesRouteImport.update({
-    id: '/attendance/leaves',
-    path: '/attendance/leaves',
-    getParentRoute: () => ProtectedRoute,
-  } as any)
-const ProtectedMastersLeavesRoute = ProtectedMastersLeavesRouteImport.update({
-  id: '/masters/leaves',
-  path: '/masters/leaves',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-const ProtectedReportsLeavesRoute = ProtectedReportsLeavesRouteImport.update({
-  id: '/reports/leaves',
-  path: '/reports/leaves',
   getParentRoute: () => ProtectedRoute,
 } as any)
 
@@ -76,22 +51,14 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof ProtectedDashboardRoute
-  '/employees': typeof ProtectedEmployeesRoute
   '/history': typeof ProtectedHistoryRoute
-  '/attendance/leaves': typeof ProtectedAttendanceLeavesRoute
-  '/masters/leaves': typeof ProtectedMastersLeavesRoute
-  '/reports/leaves': typeof ProtectedReportsLeavesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof ProtectedDashboardRoute
-  '/employees': typeof ProtectedEmployeesRoute
   '/history': typeof ProtectedHistoryRoute
-  '/attendance/leaves': typeof ProtectedAttendanceLeavesRoute
-  '/masters/leaves': typeof ProtectedMastersLeavesRoute
-  '/reports/leaves': typeof ProtectedReportsLeavesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -100,35 +67,14 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_protected/dashboard': typeof ProtectedDashboardRoute
-  '/_protected/employees': typeof ProtectedEmployeesRoute
   '/_protected/history': typeof ProtectedHistoryRoute
-  '/_protected/attendance/leaves': typeof ProtectedAttendanceLeavesRoute
-  '/_protected/masters/leaves': typeof ProtectedMastersLeavesRoute
-  '/_protected/reports/leaves': typeof ProtectedReportsLeavesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/forgot-password'
-    | '/reset-password'
-    | '/dashboard'
-    | '/employees'
-    | '/history'
-    | '/attendance/leaves'
-    | '/masters/leaves'
-    | '/reports/leaves'
+    '/' | '/forgot-password' | '/reset-password' | '/dashboard' | '/history'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/forgot-password'
-    | '/reset-password'
-    | '/dashboard'
-    | '/employees'
-    | '/history'
-    | '/attendance/leaves'
-    | '/masters/leaves'
-    | '/reports/leaves'
+  to: '/' | '/forgot-password' | '/reset-password' | '/dashboard' | '/history'
   id:
     | '__root__'
     | '/'
@@ -136,11 +82,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/reset-password'
     | '/_protected/dashboard'
-    | '/_protected/employees'
     | '/_protected/history'
-    | '/_protected/attendance/leaves'
-    | '/_protected/masters/leaves'
-    | '/_protected/reports/leaves'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -187,13 +129,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/_protected/employees': {
-      id: '/_protected/employees'
-      path: '/employees'
-      fullPath: '/employees'
-      preLoaderRoute: typeof ProtectedEmployeesRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
     '/_protected/history': {
       id: '/_protected/history'
       path: '/history'
@@ -201,46 +136,17 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedHistoryRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/_protected/attendance/leaves': {
-      id: '/_protected/attendance/leaves'
-      path: '/attendance/leaves'
-      fullPath: '/attendance/leaves'
-      preLoaderRoute: typeof ProtectedAttendanceLeavesRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
-    '/_protected/masters/leaves': {
-      id: '/_protected/masters/leaves'
-      path: '/masters/leaves'
-      fullPath: '/masters/leaves'
-      preLoaderRoute: typeof ProtectedMastersLeavesRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
-    '/_protected/reports/leaves': {
-      id: '/_protected/reports/leaves'
-      path: '/reports/leaves'
-      fullPath: '/reports/leaves'
-      preLoaderRoute: typeof ProtectedReportsLeavesRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
   }
 }
 
 interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
-  ProtectedEmployeesRoute: typeof ProtectedEmployeesRoute
   ProtectedHistoryRoute: typeof ProtectedHistoryRoute
-  ProtectedAttendanceLeavesRoute: typeof ProtectedAttendanceLeavesRoute
-  ProtectedMastersLeavesRoute: typeof ProtectedMastersLeavesRoute
-  ProtectedReportsLeavesRoute: typeof ProtectedReportsLeavesRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
-  ProtectedEmployeesRoute: ProtectedEmployeesRoute,
   ProtectedHistoryRoute: ProtectedHistoryRoute,
-  ProtectedAttendanceLeavesRoute: ProtectedAttendanceLeavesRoute,
-  ProtectedMastersLeavesRoute: ProtectedMastersLeavesRoute,
-  ProtectedReportsLeavesRoute: ProtectedReportsLeavesRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
