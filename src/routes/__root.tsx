@@ -8,14 +8,18 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Toaster } from "#/components/ui/toast";
 import { TooltipProvider } from "#/components/ui/tooltip";
-import type { User } from "#/generated/prisma/client";
 import { getAuthFn } from "#/utils/services/auth/service.auth";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
 
 interface AuthState {
 	isAuthenticated: boolean;
-	user: Omit<User, "password_hash"> | null;
+	user: {
+		id: string;
+		username: string;
+		email: string;
+		roles: string[];
+	} | null;
 }
 
 interface AppContext {

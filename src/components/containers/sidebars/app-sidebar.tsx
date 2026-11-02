@@ -78,7 +78,7 @@ const data = {
 				},
 				{
 					title: "Tambah Karyawan",
-					url: "/employees/create",
+					url: "/employees",
 				},
 				{
 					title: "Onboarding",
@@ -271,6 +271,12 @@ import { useRouteContext } from "@tanstack/react-router";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const { user } = useRouteContext({ from: "/_protected" });
+	const canManageEmployees = user.roles.some((role) =>
+		["SUPERADMIN", "ADMIN"].includes(role),
+	);
+	const navMain = canManageEmployees
+		? data.navMain
+		: data.navMain.filter((item) => item.title !== "Kepegawaian");
 
 	return (
 		<Sidebar collapsible="icon" {...props}>
@@ -278,7 +284,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				<TeamSwitcher teams={data.teams} />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavMain items={data.navMain} />
+				<NavMain items={navMain} />
 				<NavProjects projects={data.projects} />
 			</SidebarContent>
 			<SidebarFooter>

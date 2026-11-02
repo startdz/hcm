@@ -14,6 +14,7 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
+import { Route as ProtectedEmployeesRouteImport } from './routes/_protected/employees'
 import { Route as ProtectedHistoryRouteImport } from './routes/_protected/history'
 
 const IndexRoute = IndexRouteImport.update({
@@ -40,6 +41,11 @@ const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedEmployeesRoute = ProtectedEmployeesRouteImport.update({
+  id: '/employees',
+  path: '/employees',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 const ProtectedHistoryRoute = ProtectedHistoryRouteImport.update({
   id: '/history',
   path: '/history',
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/employees': typeof ProtectedEmployeesRoute
   '/history': typeof ProtectedHistoryRoute
 }
 export interface FileRoutesByTo {
@@ -58,6 +65,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/employees': typeof ProtectedEmployeesRoute
   '/history': typeof ProtectedHistoryRoute
 }
 export interface FileRoutesById {
@@ -67,14 +75,26 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_protected/dashboard': typeof ProtectedDashboardRoute
+  '/_protected/employees': typeof ProtectedEmployeesRoute
   '/_protected/history': typeof ProtectedHistoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/forgot-password' | '/reset-password' | '/dashboard' | '/history'
+    | '/'
+    | '/forgot-password'
+    | '/reset-password'
+    | '/dashboard'
+    | '/employees'
+    | '/history'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/forgot-password' | '/reset-password' | '/dashboard' | '/history'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/reset-password'
+    | '/dashboard'
+    | '/employees'
+    | '/history'
   id:
     | '__root__'
     | '/'
@@ -82,6 +102,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/reset-password'
     | '/_protected/dashboard'
+    | '/_protected/employees'
     | '/_protected/history'
   fileRoutesById: FileRoutesById
 }
@@ -129,6 +150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/employees': {
+      id: '/_protected/employees'
+      path: '/employees'
+      fullPath: '/employees'
+      preLoaderRoute: typeof ProtectedEmployeesRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/history': {
       id: '/_protected/history'
       path: '/history'
@@ -141,11 +169,13 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
+  ProtectedEmployeesRoute: typeof ProtectedEmployeesRoute
   ProtectedHistoryRoute: typeof ProtectedHistoryRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
+  ProtectedEmployeesRoute: ProtectedEmployeesRoute,
   ProtectedHistoryRoute: ProtectedHistoryRoute,
 }
 
