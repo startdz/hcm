@@ -18,7 +18,12 @@ type CreateSessionInput = {
 
 type ValidSession = Pick<Session, "id" | "user_id" | "expires_at">;
 
-export type SessionUser = { id: string; username: string; email: string };
+export type SessionUser = {
+	id: string;
+	username: string;
+	email: string;
+	roles: string[];
+};
 
 export async function validSessionRepository(sessionId: string) {
 	try {
@@ -146,13 +151,28 @@ export async function revokeSessionRepository(input: {
 }
 
 export async function getSessionUserRepository(userId: string) {
-	const [user] = await prisma.$queryRaw<SessionUser[]>(
-		Prisma.sql`
-			SELECT id, username, email
-			FROM users
-			WHERE id = ${userId}::uuid AND is_active = true
-			LIMIT 1
-		`,
-	);
-	return user ?? null;
+	const user = await prisma.user.findFirst({
+		where: { id: userId, is_active: true },
+		select: {
+			id: true,
+			username: true,
+			email: true,
+			roles: {
+				select: {
+					role: {
+						select: { code: true },
+					},
+				},
+			},
+		},
+	});
+
+	if (!user) return null;
+
+	return {
+		id: user.id,
+		username: user.username,
+		email: user.email,
+		roles: user.roles.map(({ role }) => role.code),
+	};
 }

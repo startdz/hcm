@@ -219,6 +219,7 @@ export type EmployeeWhereInput = {
   profile?: Prisma.XOR<Prisma.EmployeeProfileNullableScalarRelationFilter, Prisma.EmployeeProfileWhereInput> | null
   employee_addresses?: Prisma.EmployeeAddressListRelationFilter
   emergency_contacts?: Prisma.EmployeeEmergencyContactListRelationFilter
+  leave_requests?: Prisma.LeaveRequestListRelationFilter
 }
 
 export type EmployeeOrderByWithRelationInput = {
@@ -236,6 +237,7 @@ export type EmployeeOrderByWithRelationInput = {
   profile?: Prisma.EmployeeProfileOrderByWithRelationInput
   employee_addresses?: Prisma.EmployeeAddressOrderByRelationAggregateInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactOrderByRelationAggregateInput
+  leave_requests?: Prisma.LeaveRequestOrderByRelationAggregateInput
 }
 
 export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
@@ -256,6 +258,7 @@ export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
   profile?: Prisma.XOR<Prisma.EmployeeProfileNullableScalarRelationFilter, Prisma.EmployeeProfileWhereInput> | null
   employee_addresses?: Prisma.EmployeeAddressListRelationFilter
   emergency_contacts?: Prisma.EmployeeEmergencyContactListRelationFilter
+  leave_requests?: Prisma.LeaveRequestListRelationFilter
 }, "id" | "emp_number" | "user_id">
 
 export type EmployeeOrderByWithAggregationInput = {
@@ -301,6 +304,7 @@ export type EmployeeCreateInput = {
   profile?: Prisma.EmployeeProfileCreateNestedOneWithoutEmployeeInput
   employee_addresses?: Prisma.EmployeeAddressCreateNestedManyWithoutEmployeeInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeUncheckedCreateInput = {
@@ -316,6 +320,7 @@ export type EmployeeUncheckedCreateInput = {
   profile?: Prisma.EmployeeProfileUncheckedCreateNestedOneWithoutEmployeeInput
   employee_addresses?: Prisma.EmployeeAddressUncheckedCreateNestedManyWithoutEmployeeInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeUpdateInput = {
@@ -331,6 +336,7 @@ export type EmployeeUpdateInput = {
   profile?: Prisma.EmployeeProfileUpdateOneWithoutEmployeeNestedInput
   employee_addresses?: Prisma.EmployeeAddressUpdateManyWithoutEmployeeNestedInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeUncheckedUpdateInput = {
@@ -346,6 +352,7 @@ export type EmployeeUncheckedUpdateInput = {
   profile?: Prisma.EmployeeProfileUncheckedUpdateOneWithoutEmployeeNestedInput
   employee_addresses?: Prisma.EmployeeAddressUncheckedUpdateManyWithoutEmployeeNestedInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeCreateManyInput = {
@@ -558,6 +565,20 @@ export type EmployeeUpdateOneRequiredWithoutEmergency_contactsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmployeeUpdateToOneWithWhereWithoutEmergency_contactsInput, Prisma.EmployeeUpdateWithoutEmergency_contactsInput>, Prisma.EmployeeUncheckedUpdateWithoutEmergency_contactsInput>
 }
 
+export type EmployeeCreateNestedOneWithoutLeave_requestsInput = {
+  create?: Prisma.XOR<Prisma.EmployeeCreateWithoutLeave_requestsInput, Prisma.EmployeeUncheckedCreateWithoutLeave_requestsInput>
+  connectOrCreate?: Prisma.EmployeeCreateOrConnectWithoutLeave_requestsInput
+  connect?: Prisma.EmployeeWhereUniqueInput
+}
+
+export type EmployeeUpdateOneRequiredWithoutLeave_requestsNestedInput = {
+  create?: Prisma.XOR<Prisma.EmployeeCreateWithoutLeave_requestsInput, Prisma.EmployeeUncheckedCreateWithoutLeave_requestsInput>
+  connectOrCreate?: Prisma.EmployeeCreateOrConnectWithoutLeave_requestsInput
+  upsert?: Prisma.EmployeeUpsertWithoutLeave_requestsInput
+  connect?: Prisma.EmployeeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmployeeUpdateToOneWithWhereWithoutLeave_requestsInput, Prisma.EmployeeUpdateWithoutLeave_requestsInput>, Prisma.EmployeeUncheckedUpdateWithoutLeave_requestsInput>
+}
+
 export type EmployeeCreateWithoutDepartmentInput = {
   id?: string
   emp_number: string
@@ -570,6 +591,7 @@ export type EmployeeCreateWithoutDepartmentInput = {
   profile?: Prisma.EmployeeProfileCreateNestedOneWithoutEmployeeInput
   employee_addresses?: Prisma.EmployeeAddressCreateNestedManyWithoutEmployeeInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeUncheckedCreateWithoutDepartmentInput = {
@@ -584,6 +606,7 @@ export type EmployeeUncheckedCreateWithoutDepartmentInput = {
   profile?: Prisma.EmployeeProfileUncheckedCreateNestedOneWithoutEmployeeInput
   employee_addresses?: Prisma.EmployeeAddressUncheckedCreateNestedManyWithoutEmployeeInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeCreateOrConnectWithoutDepartmentInput = {
@@ -639,6 +662,7 @@ export type EmployeeCreateWithoutUserInput = {
   profile?: Prisma.EmployeeProfileCreateNestedOneWithoutEmployeeInput
   employee_addresses?: Prisma.EmployeeAddressCreateNestedManyWithoutEmployeeInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeUncheckedCreateWithoutUserInput = {
@@ -653,6 +677,7 @@ export type EmployeeUncheckedCreateWithoutUserInput = {
   profile?: Prisma.EmployeeProfileUncheckedCreateNestedOneWithoutEmployeeInput
   employee_addresses?: Prisma.EmployeeAddressUncheckedCreateNestedManyWithoutEmployeeInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeCreateOrConnectWithoutUserInput = {
@@ -683,6 +708,7 @@ export type EmployeeUpdateWithoutUserInput = {
   profile?: Prisma.EmployeeProfileUpdateOneWithoutEmployeeNestedInput
   employee_addresses?: Prisma.EmployeeAddressUpdateManyWithoutEmployeeNestedInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeUncheckedUpdateWithoutUserInput = {
@@ -697,6 +723,7 @@ export type EmployeeUncheckedUpdateWithoutUserInput = {
   profile?: Prisma.EmployeeProfileUncheckedUpdateOneWithoutEmployeeNestedInput
   employee_addresses?: Prisma.EmployeeAddressUncheckedUpdateManyWithoutEmployeeNestedInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeCreateWithoutProfileInput = {
@@ -711,6 +738,7 @@ export type EmployeeCreateWithoutProfileInput = {
   user?: Prisma.UserCreateNestedOneWithoutEmployeeInput
   employee_addresses?: Prisma.EmployeeAddressCreateNestedManyWithoutEmployeeInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeUncheckedCreateWithoutProfileInput = {
@@ -725,6 +753,7 @@ export type EmployeeUncheckedCreateWithoutProfileInput = {
   updated_at?: Date | string
   employee_addresses?: Prisma.EmployeeAddressUncheckedCreateNestedManyWithoutEmployeeInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeCreateOrConnectWithoutProfileInput = {
@@ -755,6 +784,7 @@ export type EmployeeUpdateWithoutProfileInput = {
   user?: Prisma.UserUpdateOneWithoutEmployeeNestedInput
   employee_addresses?: Prisma.EmployeeAddressUpdateManyWithoutEmployeeNestedInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeUncheckedUpdateWithoutProfileInput = {
@@ -769,6 +799,7 @@ export type EmployeeUncheckedUpdateWithoutProfileInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   employee_addresses?: Prisma.EmployeeAddressUncheckedUpdateManyWithoutEmployeeNestedInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeCreateWithoutEmployee_addressesInput = {
@@ -783,6 +814,7 @@ export type EmployeeCreateWithoutEmployee_addressesInput = {
   user?: Prisma.UserCreateNestedOneWithoutEmployeeInput
   profile?: Prisma.EmployeeProfileCreateNestedOneWithoutEmployeeInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeUncheckedCreateWithoutEmployee_addressesInput = {
@@ -797,6 +829,7 @@ export type EmployeeUncheckedCreateWithoutEmployee_addressesInput = {
   updated_at?: Date | string
   profile?: Prisma.EmployeeProfileUncheckedCreateNestedOneWithoutEmployeeInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeCreateOrConnectWithoutEmployee_addressesInput = {
@@ -827,6 +860,7 @@ export type EmployeeUpdateWithoutEmployee_addressesInput = {
   user?: Prisma.UserUpdateOneWithoutEmployeeNestedInput
   profile?: Prisma.EmployeeProfileUpdateOneWithoutEmployeeNestedInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeUncheckedUpdateWithoutEmployee_addressesInput = {
@@ -841,6 +875,7 @@ export type EmployeeUncheckedUpdateWithoutEmployee_addressesInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.EmployeeProfileUncheckedUpdateOneWithoutEmployeeNestedInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeCreateWithoutEmergency_contactsInput = {
@@ -855,6 +890,7 @@ export type EmployeeCreateWithoutEmergency_contactsInput = {
   user?: Prisma.UserCreateNestedOneWithoutEmployeeInput
   profile?: Prisma.EmployeeProfileCreateNestedOneWithoutEmployeeInput
   employee_addresses?: Prisma.EmployeeAddressCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeUncheckedCreateWithoutEmergency_contactsInput = {
@@ -869,6 +905,7 @@ export type EmployeeUncheckedCreateWithoutEmergency_contactsInput = {
   updated_at?: Date | string
   profile?: Prisma.EmployeeProfileUncheckedCreateNestedOneWithoutEmployeeInput
   employee_addresses?: Prisma.EmployeeAddressUncheckedCreateNestedManyWithoutEmployeeInput
+  leave_requests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
 }
 
 export type EmployeeCreateOrConnectWithoutEmergency_contactsInput = {
@@ -899,6 +936,7 @@ export type EmployeeUpdateWithoutEmergency_contactsInput = {
   user?: Prisma.UserUpdateOneWithoutEmployeeNestedInput
   profile?: Prisma.EmployeeProfileUpdateOneWithoutEmployeeNestedInput
   employee_addresses?: Prisma.EmployeeAddressUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeUncheckedUpdateWithoutEmergency_contactsInput = {
@@ -913,6 +951,83 @@ export type EmployeeUncheckedUpdateWithoutEmergency_contactsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.EmployeeProfileUncheckedUpdateOneWithoutEmployeeNestedInput
   employee_addresses?: Prisma.EmployeeAddressUncheckedUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+}
+
+export type EmployeeCreateWithoutLeave_requestsInput = {
+  id?: string
+  emp_number: string
+  first_name: string
+  last_name?: string | null
+  status?: $Enums.EmployeeStatus
+  created_at?: Date | string
+  updated_at?: Date | string
+  department?: Prisma.DepartmentCreateNestedOneWithoutEmployeesInput
+  user?: Prisma.UserCreateNestedOneWithoutEmployeeInput
+  profile?: Prisma.EmployeeProfileCreateNestedOneWithoutEmployeeInput
+  employee_addresses?: Prisma.EmployeeAddressCreateNestedManyWithoutEmployeeInput
+  emergency_contacts?: Prisma.EmployeeEmergencyContactCreateNestedManyWithoutEmployeeInput
+}
+
+export type EmployeeUncheckedCreateWithoutLeave_requestsInput = {
+  id?: string
+  emp_number: string
+  first_name: string
+  last_name?: string | null
+  status?: $Enums.EmployeeStatus
+  department_id?: string | null
+  user_id?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  profile?: Prisma.EmployeeProfileUncheckedCreateNestedOneWithoutEmployeeInput
+  employee_addresses?: Prisma.EmployeeAddressUncheckedCreateNestedManyWithoutEmployeeInput
+  emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
+}
+
+export type EmployeeCreateOrConnectWithoutLeave_requestsInput = {
+  where: Prisma.EmployeeWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmployeeCreateWithoutLeave_requestsInput, Prisma.EmployeeUncheckedCreateWithoutLeave_requestsInput>
+}
+
+export type EmployeeUpsertWithoutLeave_requestsInput = {
+  update: Prisma.XOR<Prisma.EmployeeUpdateWithoutLeave_requestsInput, Prisma.EmployeeUncheckedUpdateWithoutLeave_requestsInput>
+  create: Prisma.XOR<Prisma.EmployeeCreateWithoutLeave_requestsInput, Prisma.EmployeeUncheckedCreateWithoutLeave_requestsInput>
+  where?: Prisma.EmployeeWhereInput
+}
+
+export type EmployeeUpdateToOneWithWhereWithoutLeave_requestsInput = {
+  where?: Prisma.EmployeeWhereInput
+  data: Prisma.XOR<Prisma.EmployeeUpdateWithoutLeave_requestsInput, Prisma.EmployeeUncheckedUpdateWithoutLeave_requestsInput>
+}
+
+export type EmployeeUpdateWithoutLeave_requestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  emp_number?: Prisma.StringFieldUpdateOperationsInput | string
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEmployeeStatusFieldUpdateOperationsInput | $Enums.EmployeeStatus
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.DepartmentUpdateOneWithoutEmployeesNestedInput
+  user?: Prisma.UserUpdateOneWithoutEmployeeNestedInput
+  profile?: Prisma.EmployeeProfileUpdateOneWithoutEmployeeNestedInput
+  employee_addresses?: Prisma.EmployeeAddressUpdateManyWithoutEmployeeNestedInput
+  emergency_contacts?: Prisma.EmployeeEmergencyContactUpdateManyWithoutEmployeeNestedInput
+}
+
+export type EmployeeUncheckedUpdateWithoutLeave_requestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  emp_number?: Prisma.StringFieldUpdateOperationsInput | string
+  first_name?: Prisma.StringFieldUpdateOperationsInput | string
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEmployeeStatusFieldUpdateOperationsInput | $Enums.EmployeeStatus
+  department_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.EmployeeProfileUncheckedUpdateOneWithoutEmployeeNestedInput
+  employee_addresses?: Prisma.EmployeeAddressUncheckedUpdateManyWithoutEmployeeNestedInput
+  emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeCreateManyDepartmentInput = {
@@ -938,6 +1053,7 @@ export type EmployeeUpdateWithoutDepartmentInput = {
   profile?: Prisma.EmployeeProfileUpdateOneWithoutEmployeeNestedInput
   employee_addresses?: Prisma.EmployeeAddressUpdateManyWithoutEmployeeNestedInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeUncheckedUpdateWithoutDepartmentInput = {
@@ -952,6 +1068,7 @@ export type EmployeeUncheckedUpdateWithoutDepartmentInput = {
   profile?: Prisma.EmployeeProfileUncheckedUpdateOneWithoutEmployeeNestedInput
   employee_addresses?: Prisma.EmployeeAddressUncheckedUpdateManyWithoutEmployeeNestedInput
   emergency_contacts?: Prisma.EmployeeEmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
+  leave_requests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
 }
 
 export type EmployeeUncheckedUpdateManyWithoutDepartmentInput = {
@@ -973,11 +1090,13 @@ export type EmployeeUncheckedUpdateManyWithoutDepartmentInput = {
 export type EmployeeCountOutputType = {
   employee_addresses: number
   emergency_contacts: number
+  leave_requests: number
 }
 
 export type EmployeeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   employee_addresses?: boolean | EmployeeCountOutputTypeCountEmployee_addressesArgs
   emergency_contacts?: boolean | EmployeeCountOutputTypeCountEmergency_contactsArgs
+  leave_requests?: boolean | EmployeeCountOutputTypeCountLeave_requestsArgs
 }
 
 /**
@@ -1004,6 +1123,13 @@ export type EmployeeCountOutputTypeCountEmergency_contactsArgs<ExtArgs extends r
   where?: Prisma.EmployeeEmergencyContactWhereInput
 }
 
+/**
+ * EmployeeCountOutputType without action
+ */
+export type EmployeeCountOutputTypeCountLeave_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LeaveRequestWhereInput
+}
+
 
 export type EmployeeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1020,6 +1146,7 @@ export type EmployeeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   profile?: boolean | Prisma.Employee$profileArgs<ExtArgs>
   employee_addresses?: boolean | Prisma.Employee$employee_addressesArgs<ExtArgs>
   emergency_contacts?: boolean | Prisma.Employee$emergency_contactsArgs<ExtArgs>
+  leave_requests?: boolean | Prisma.Employee$leave_requestsArgs<ExtArgs>
   _count?: boolean | Prisma.EmployeeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["employee"]>
 
@@ -1070,6 +1197,7 @@ export type EmployeeInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   profile?: boolean | Prisma.Employee$profileArgs<ExtArgs>
   employee_addresses?: boolean | Prisma.Employee$employee_addressesArgs<ExtArgs>
   emergency_contacts?: boolean | Prisma.Employee$emergency_contactsArgs<ExtArgs>
+  leave_requests?: boolean | Prisma.Employee$leave_requestsArgs<ExtArgs>
   _count?: boolean | Prisma.EmployeeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EmployeeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1089,6 +1217,7 @@ export type $EmployeePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     profile: Prisma.$EmployeeProfilePayload<ExtArgs> | null
     employee_addresses: Prisma.$EmployeeAddressPayload<ExtArgs>[]
     emergency_contacts: Prisma.$EmployeeEmergencyContactPayload<ExtArgs>[]
+    leave_requests: Prisma.$LeaveRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1499,6 +1628,7 @@ export interface Prisma__EmployeeClient<T, Null = never, ExtArgs extends runtime
   profile<T extends Prisma.Employee$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Employee$profileArgs<ExtArgs>>): Prisma.Prisma__EmployeeProfileClient<runtime.Types.Result.GetResult<Prisma.$EmployeeProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   employee_addresses<T extends Prisma.Employee$employee_addressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Employee$employee_addressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmployeeAddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   emergency_contacts<T extends Prisma.Employee$emergency_contactsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Employee$emergency_contactsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmployeeEmergencyContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  leave_requests<T extends Prisma.Employee$leave_requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Employee$leave_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2040,6 +2170,30 @@ export type Employee$emergency_contactsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.EmployeeEmergencyContactScalarFieldEnum | Prisma.EmployeeEmergencyContactScalarFieldEnum[]
+}
+
+/**
+ * Employee.leave_requests
+ */
+export type Employee$leave_requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LeaveRequest
+   */
+  select?: Prisma.LeaveRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LeaveRequest
+   */
+  omit?: Prisma.LeaveRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeaveRequestInclude<ExtArgs> | null
+  where?: Prisma.LeaveRequestWhereInput
+  orderBy?: Prisma.LeaveRequestOrderByWithRelationInput | Prisma.LeaveRequestOrderByWithRelationInput[]
+  cursor?: Prisma.LeaveRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LeaveRequestScalarFieldEnum | Prisma.LeaveRequestScalarFieldEnum[]
 }
 
 /**

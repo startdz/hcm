@@ -134,19 +134,39 @@ async function main() {
       module: 'employees',
     },
     {
-      code: 'leaves.read',
-      name: 'Read Leave Types',
-      module: 'leaves',
+      code: 'leave_types.manage',
+      name: 'Manage Leave Types',
+      module: 'leave_types',
     },
     {
-      code: 'leaves.create',
-      name: 'Create Leave Requests',
-      module: 'leaves',
+      code: 'leave_types.read_active',
+      name: 'Read Active Leave Types',
+      module: 'leave_types',
     },
     {
-      code: 'leaves.approve',
-      name: 'Approve Leave Requests',
-      module: 'leaves',
+      code: 'leave_requests.read_all',
+      name: 'Read All Leave Requests',
+      module: 'leave_requests',
+    },
+    {
+      code: 'leave_requests.create_own',
+      name: 'Create Own Leave Requests',
+      module: 'leave_requests',
+    },
+    {
+      code: 'leave_requests.read_own',
+      name: 'Read Own Leave Requests',
+      module: 'leave_requests',
+    },
+    {
+      code: 'leave_requests.update_own_on_conflict',
+      name: 'Resolve Own Conflicted Leave Requests',
+      module: 'leave_requests',
+    },
+    {
+      code: 'leave_requests.approve',
+      name: 'Approve or Reject Leave Requests',
+      module: 'leave_requests',
     },
     {
       code: 'users.manage',
@@ -173,6 +193,19 @@ async function main() {
     ),
   )
 
+  await prisma.rolePermission.deleteMany({
+    where: {
+      permission: {
+        code: { in: ['leaves.read', 'leaves.create', 'leaves.approve'] },
+      },
+    },
+  })
+  await prisma.permission.deleteMany({
+    where: {
+      code: { in: ['leaves.read', 'leaves.create', 'leaves.approve'] },
+    },
+  })
+
   const permissionByCode = Object.fromEntries(
     permissions.map((permission) => [
       permission.code,
@@ -182,29 +215,30 @@ async function main() {
 
   // 5. Role permissions
   const rolePermissionMap: Record<string, string[]> = {
-    SUPERADMIN: permissionDefinitions.map(
-      (permission) => permission.code,
-    ),
+    SUPERADMIN: permissionDefinitions
+      .filter((permission) => !permission.code.startsWith('leave_requests.'))
+      .map((permission) => permission.code),
     ADMIN: [
       'employees.read',
       'employees.create',
       'employees.update',
       'employees.delete',
-      'leaves.read',
-      'leaves.create',
-      'leaves.approve',
+      'leave_types.manage',
+      'leave_types.read_active',
       'users.manage',
     ],
     HR_MANAGER: [
       'employees.read',
       'employees.create',
       'employees.update',
-      'leaves.read',
-      'leaves.approve',
+      'leave_requests.read_all',
+      'leave_requests.approve',
     ],
     EMPLOYEE: [
-      'leaves.read',
-      'leaves.create',
+      'leave_types.read_active',
+      'leave_requests.create_own',
+      'leave_requests.read_own',
+      'leave_requests.update_own_on_conflict',
     ],
   }
 
@@ -361,7 +395,7 @@ async function main() {
     })
   }
 
-  // 11. Regular employee
+  // 11. Regular employee 1
   const employeeUser = await prisma.user.upsert({
     where: { username: 'employee.demo' },
     update: {
@@ -406,7 +440,54 @@ async function main() {
     },
   })
 
-  // 12. Leave types
+  // 12. Regular employee 2
+  const employeeUser2 = await prisma.user.upsert({
+    where: { username: 'employee2.demo' },
+    update: {
+      password_hash: passwordHash,
+      is_active: true,
+    },
+    create: {
+      username: 'employee2.demo',
+      email: 'employee2.demo@example.com',
+      password_hash: passwordHash,
+    },
+  })
+
+  const employee2 = await prisma.employee.upsert({
+    where: { emp_number: 'EMP-0003' },
+    update: {
+      first_name: 'Demo',
+      last_name: 'Employee 2',
+      department_id: itDepartment.id,
+      status: 'ACTIVE',
+      user_id: employeeUser2.id,
+    },
+    create: {
+      emp_number: 'EMP-0003',
+      first_name: 'Demo',
+      last_name: 'Employee 2',
+      department_id: itDepartment.id,
+      status: 'ACTIVE',
+      user_id: employeeUser2.id,
+    },
+  })
+
+  await prisma.userRole.upsert({
+    where: {
+      user_id_role_id: {
+        user_id: employeeUser2.id,
+        role_id: roleByCode.EMPLOYEE.id,
+      },
+    },
+    update: {},
+    create: {
+      user_id: employeeUser2.id,
+      role_id: roleByCode.EMPLOYEE.id,
+    },
+  })
+
+  // 13. Leave types
   const leaveDefinitions = [
     {
       code: 'ANNUAL',
@@ -454,6 +535,7 @@ async function main() {
   console.log(`🔐 Roles: ${roles.length}`)
   console.log(`🛡️ Permissions: ${permissions.length}`)
   console.log(`👤 Demo employee: ${employee.emp_number}`)
+  console.log(`👤 Demo employee 2: ${employee2.emp_number}`)
   console.log('🔑 Demo usernames: admin, hr.manager, employee.demo')
   console.log('🔑 All demo accounts use SEED_ADMIN_PASSWORD')
 }

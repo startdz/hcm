@@ -271,6 +271,43 @@ import { useRouteContext } from "@tanstack/react-router";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const { user } = useRouteContext({ from: "/_protected" });
+	const canManageEmployees = user.roles.some((role) =>
+		["SUPERADMIN", "ADMIN"].includes(role),
+	);
+	const canManageLeaveTypes = canManageEmployees;
+	const canAccessLeaveRequests = user.roles.some((role) =>
+		["HR_MANAGER", "EMPLOYEE"].includes(role),
+	);
+	const canAccessLeaveReport = user.roles.some((role) =>
+		["HR_MANAGER", "ADMIN", "SUPERADMIN"].includes(role),
+	);
+	const navMain = data.navMain
+		.filter((item) => item.title !== "Kepegawaian" || canManageEmployees)
+		.map((item) =>
+			item.title === "Kehadiran"
+				? {
+						...item,
+						items: item.items?.filter(
+							(subItem) =>
+								subItem.title !== "Pengajuan Cuti" || canAccessLeaveRequests,
+						),
+					}
+				: item,
+		)
+		.map((item) =>
+			item.title === "Laporan"
+				? {
+						...item,
+						items: item.items?.filter(
+							(subItem) =>
+								subItem.title !== "Laporan Cuti" || canAccessLeaveReport,
+						),
+					}
+				: item,
+		);
+	const projects = data.projects.filter(
+		(project) => project.name !== "Master Jenis Cuti" || canManageLeaveTypes,
+	);
 
 	return (
 		<Sidebar collapsible="icon" {...props}>
@@ -278,8 +315,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				<TeamSwitcher teams={data.teams} />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavMain items={data.navMain} />
-				<NavProjects projects={data.projects} />
+				<NavMain items={navMain} />
+				<NavProjects projects={projects} />
 			</SidebarContent>
 			<SidebarFooter>
 				<NavUser

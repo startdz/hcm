@@ -36,3 +36,12 @@ export const EmployeeGender = {
 } as const
 
 export type EmployeeGender = (typeof EmployeeGender)[keyof typeof EmployeeGender]
+
+
+export const LeaveRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type LeaveRequestStatus = (typeof LeaveRequestStatus)[keyof typeof LeaveRequestStatus]

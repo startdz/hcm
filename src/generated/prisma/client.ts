@@ -111,3 +111,8 @@ export type RolePermission = Prisma.RolePermissionModel
  * 
  */
 export type Leave = Prisma.LeaveModel
+/**
+ * Model LeaveRequest
+ * 
+ */
+export type LeaveRequest = Prisma.LeaveRequestModel

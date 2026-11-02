@@ -64,7 +64,8 @@ export const ModelName = {
   Permission: 'Permission',
   UserRole: 'UserRole',
   RolePermission: 'RolePermission',
-  Leave: 'Leave'
+  Leave: 'Leave',
+  LeaveRequest: 'LeaveRequest'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -271,6 +272,24 @@ export const LeaveScalarFieldEnum = {
 } as const
 
 export type LeaveScalarFieldEnum = (typeof LeaveScalarFieldEnum)[keyof typeof LeaveScalarFieldEnum]
+
+
+export const LeaveRequestScalarFieldEnum = {
+  id: 'id',
+  start_date: 'start_date',
+  end_date: 'end_date',
+  reason: 'reason',
+  status: 'status',
+  decision_note: 'decision_note',
+  decided_at: 'decided_at',
+  employee_id: 'employee_id',
+  leave_id: 'leave_id',
+  reviewed_by_user_id: 'reviewed_by_user_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type LeaveRequestScalarFieldEnum = (typeof LeaveRequestScalarFieldEnum)[keyof typeof LeaveRequestScalarFieldEnum]
 
 
 export const SortOrder = {
