@@ -52,7 +52,9 @@ const DashboardLayout = () => {
 						</BreadcrumbList>
 					</Breadcrumb>
 				</header>
-				<Outlet />
+				<section className="p-4">
+					<Outlet />
+				</section>
 			</SidebarInset>
 		</SidebarProvider>
 	);
