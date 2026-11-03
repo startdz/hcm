@@ -12,6 +12,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "#/components/ui/table";
+import { toast } from "#/components/ui/toast";
+import { Route } from "#/routes/_protected/employees";
 import type { EmployeeInput } from "#/schemas/schema.employee";
 import {
 	createEmployeeFn,
@@ -19,7 +21,6 @@ import {
 	type getEmployeesFn,
 	updateEmployeeFn,
 } from "#/utils/services/employees/service.employee";
-import { Route } from "#/routes/_protected/employees";
 
 type EmployeeRow = Awaited<
 	ReturnType<typeof getEmployeesFn>
@@ -83,19 +84,34 @@ export function EmployeeManagement() {
 			};
 			if (editingId) {
 				await updateEmployeeFn({ data: { id: editingId, ...values } });
+				toast.add({
+					type: "success",
+					title: "Karyawan Berhasil Diperbarui",
+					description: "Perubahan data karyawan telah disimpan.",
+				});
 			} else {
 				await createEmployeeFn({ data: values });
+				toast.add({
+					type: "success",
+					title: "Karyawan Berhasil Ditambahkan",
+					description: "Data karyawan baru telah disimpan.",
+				});
 			}
 			setIsFormOpen(false);
 			setForm(EMPTY_FORM);
 			setEditingId(null);
 			await router.invalidate();
 		} catch (error) {
-			setErrorMessage(
+			const message =
 				error instanceof Error
 					? error.message
-					: "Terjadi kesalahan saat menyimpan data karyawan.",
-			);
+					: "Terjadi kesalahan saat menyimpan data karyawan.";
+			setErrorMessage(message);
+			toast.add({
+				type: "error",
+				title: "Gagal Menyimpan Karyawan",
+				description: message,
+			});
 		} finally {
 			setIsSaving(false);
 		}
@@ -114,13 +130,23 @@ export function EmployeeManagement() {
 		setErrorMessage(null);
 		try {
 			await deleteEmployeeFn({ data: { id: employee.id } });
+			toast.add({
+				type: "success",
+				title: "Karyawan Berhasil Dihapus",
+				description: `${employee.first_name} ${employee.last_name ?? ""} telah dihapus.`,
+			});
 			await router.invalidate();
 		} catch (error) {
-			setErrorMessage(
+			const message =
 				error instanceof Error
 					? error.message
-					: "Terjadi kesalahan saat menghapus data karyawan.",
-			);
+					: "Terjadi kesalahan saat menghapus data karyawan.";
+			setErrorMessage(message);
+			toast.add({
+				type: "error",
+				title: "Gagal Menghapus Karyawan",
+				description: message,
+			});
 		} finally {
 			setBusyEmployeeId(null);
 		}

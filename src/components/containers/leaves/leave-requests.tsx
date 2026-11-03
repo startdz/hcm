@@ -13,6 +13,7 @@ import {
 	TableRow,
 } from "#/components/ui/table";
 import { Textarea } from "#/components/ui/textarea";
+import { toast } from "#/components/ui/toast";
 import type { LeaveRequestInput } from "#/schemas/schema.leave";
 import type {
 	getAvailableLeaveTypesFn,
@@ -84,19 +85,36 @@ export function EmployeeLeaveRequests({
 				await updateMyConflictedLeaveRequestFn({
 					data: { id: editingId, ...form },
 				});
+				toast.add({
+					type: "success",
+					title: "Pengajuan Cuti Diperbarui",
+					description: "Bentrok jadwal berhasil diselesaikan.",
+				});
 			} else {
 				await createMyLeaveRequestFn({ data: form });
+				toast.add({
+					type: "success",
+					title: "Pengajuan Cuti Terkirim",
+					description: "Pengajuan cuti Anda menunggu tinjauan HR.",
+				});
 			}
 			setIsFormOpen(false);
 			setEditingId(null);
 			setForm(EMPTY_FORM);
 			await router.invalidate();
 		} catch (error) {
-			setErrorMessage(
+			const message =
 				error instanceof Error
 					? error.message
-					: "Terjadi kesalahan saat mengirim pengajuan.",
-			);
+					: "Terjadi kesalahan saat mengirim pengajuan.";
+			setErrorMessage(message);
+			toast.add({
+				type: "error",
+				title: editingId
+					? "Gagal Memperbarui Pengajuan"
+					: "Gagal Mengajukan Cuti",
+				description: message,
+			});
 		} finally {
 			setIsSaving(false);
 		}
@@ -314,13 +332,26 @@ export function HrLeaveRequestReview({
 					decision_note: decisionNotes[id]?.trim() || null,
 				},
 			});
+			toast.add({
+				type: "success",
+				title:
+					decision === "APPROVED"
+						? "Pengajuan Cuti Disetujui"
+						: "Pengajuan Cuti Ditolak",
+				description: "Keputusan telah disimpan.",
+			});
 			await router.invalidate();
 		} catch (error) {
-			setErrorMessage(
+			const message =
 				error instanceof Error
 					? error.message
-					: "Terjadi kesalahan saat memutuskan pengajuan.",
-			);
+					: "Terjadi kesalahan saat memutuskan pengajuan.";
+			setErrorMessage(message);
+			toast.add({
+				type: "error",
+				title: "Gagal Memproses Pengajuan",
+				description: message,
+			});
 		} finally {
 			setBusyId(null);
 		}

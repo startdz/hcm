@@ -13,6 +13,7 @@ import {
 	TableRow,
 } from "#/components/ui/table";
 import { Textarea } from "#/components/ui/textarea";
+import { toast } from "#/components/ui/toast";
 import type { LeaveTypeInput } from "#/schemas/schema.leave";
 import type { getLeaveTypesFn } from "#/utils/services/leaves/service.leave";
 import {
@@ -77,19 +78,34 @@ export function LeaveTypeManagement() {
 			};
 			if (editingId) {
 				await updateLeaveTypeFn({ data: { id: editingId, ...values } });
+				toast.add({
+					type: "success",
+					title: "Jenis Cuti Berhasil Diperbarui",
+					description: "Perubahan master jenis cuti telah disimpan.",
+				});
 			} else {
 				await createLeaveTypeFn({ data: values });
+				toast.add({
+					type: "success",
+					title: "Jenis Cuti Berhasil Ditambahkan",
+					description: "Jenis cuti baru telah disimpan.",
+				});
 			}
 			setIsFormOpen(false);
 			setForm(EMPTY_FORM);
 			setEditingId(null);
 			await router.invalidate();
 		} catch (error) {
-			setErrorMessage(
+			const message =
 				error instanceof Error
 					? error.message
-					: "Terjadi kesalahan saat menyimpan jenis cuti.",
-			);
+					: "Terjadi kesalahan saat menyimpan jenis cuti.";
+			setErrorMessage(message);
+			toast.add({
+				type: "error",
+				title: "Gagal Menyimpan Jenis Cuti",
+				description: message,
+			});
 		} finally {
 			setIsSaving(false);
 		}
@@ -101,13 +117,23 @@ export function LeaveTypeManagement() {
 		setErrorMessage(null);
 		try {
 			await archiveLeaveTypeFn({ data: { id: leaveType.id } });
+			toast.add({
+				type: "success",
+				title: "Jenis Cuti Diarsipkan",
+				description: `${leaveType.name} tidak lagi tersedia untuk pengajuan baru.`,
+			});
 			await router.invalidate();
 		} catch (error) {
-			setErrorMessage(
+			const message =
 				error instanceof Error
 					? error.message
-					: "Terjadi kesalahan saat mengarsipkan jenis cuti.",
-			);
+					: "Terjadi kesalahan saat mengarsipkan jenis cuti.";
+			setErrorMessage(message);
+			toast.add({
+				type: "error",
+				title: "Gagal Mengarsipkan Jenis Cuti",
+				description: message,
+			});
 		} finally {
 			setBusyId(null);
 		}
