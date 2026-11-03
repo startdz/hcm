@@ -10,6 +10,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "#/components/ui/table";
+import { toast } from "#/components/ui/toast";
 import type { getLeaveReportFn } from "#/utils/services/leaves/service.leave";
 import { Route } from "@/routes/_protected/reports/leaves";
 
@@ -112,6 +113,20 @@ export function LeaveReport() {
 			await navigate({
 				search: (previous) => ({ ...previous, period, date }),
 			});
+			toast.add({
+				type: "success",
+				title: "Filter Laporan Diperbarui",
+				description: `Periode ${periodLabels[period].toLowerCase()} diterapkan.`,
+			});
+		} catch (error) {
+			toast.add({
+				type: "error",
+				title: "Gagal Memperbarui Filter",
+				description:
+					error instanceof Error
+						? error.message
+						: "Terjadi kesalahan saat memuat laporan.",
+			});
 		} finally {
 			setIsChangingFilter(false);
 		}
@@ -126,7 +141,29 @@ export function LeaveReport() {
 						Filter berdasarkan tanggal pelaksanaan cuti. Zona waktu: WIB.
 					</p>
 				</div>
-				<Button onClick={() => downloadCsv(report)}>Unduh CSV</Button>
+				<Button
+					onClick={() => {
+						try {
+							downloadCsv(report);
+							toast.add({
+								type: "success",
+								title: "Laporan Berhasil Diunduh",
+								description: "File CSV laporan cuti telah dibuat.",
+							});
+						} catch (error) {
+							toast.add({
+								type: "error",
+								title: "Gagal Mengunduh Laporan",
+								description:
+									error instanceof Error
+										? error.message
+										: "Terjadi kesalahan saat membuat file CSV.",
+							});
+						}
+					}}
+				>
+					Unduh CSV
+				</Button>
 			</div>
 
 			<Card>
