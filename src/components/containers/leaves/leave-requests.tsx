@@ -1,9 +1,18 @@
 import { useRouter } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "#/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card";
+import { Field, FieldLabel } from "#/components/ui/field";
 import { Input } from "#/components/ui/input";
-import { Label } from "#/components/ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "#/components/ui/select";
 import {
 	Table,
 	TableBody,
@@ -120,6 +129,13 @@ export function EmployeeLeaveRequests({
 		}
 	}
 
+	const itemLeaves = useMemo(() => {
+		return leaveTypes?.map((item) => ({
+			label: item.name,
+			value: item.id,
+		}));
+	}, [leaveTypes]);
+
 	return (
 		<div className="space-y-6">
 			<div className="flex flex-wrap items-center justify-between gap-3">
@@ -170,78 +186,94 @@ export function EmployeeLeaveRequests({
 						<form onSubmit={submitRequest} className="space-y-4">
 							<div className="grid gap-4 sm:grid-cols-2">
 								<div className="space-y-2">
-									<Label htmlFor="request-leave-type">Jenis Cuti</Label>
-									<select
-										id="request-leave-type"
-										required
-										className="h-8 w-full rounded-2xl border border-input bg-input/50 px-2.5 text-sm"
-										value={form.leave_id}
-										onChange={(event) =>
-											setForm({ ...form, leave_id: event.target.value })
-										}
-									>
-										<option value="" disabled>
-											Pilih jenis cuti
-										</option>
-										{form.leave_id &&
-											!leaveTypes.some(
-												(leaveType) => leaveType.id === form.leave_id,
-											) && (
-												<option value={form.leave_id}>
-													Jenis cuti saat ini (diarsipkan)
-												</option>
-											)}
-										{leaveTypes.map((leaveType) => (
-											<option key={leaveType.id} value={leaveType.id}>
-												{leaveType.name}
-											</option>
-										))}
-									</select>
+									<Field>
+										<FieldLabel>Jenis Cuti</FieldLabel>
+										<Select
+											items={itemLeaves}
+											onValueChange={(value) =>
+												setForm({ ...form, leave_id: value as string })
+											}
+										>
+											<SelectTrigger className="w-full">
+												<SelectValue placeholder="Pilih Cuti" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectGroup>
+													<SelectLabel>Pilih Jenis Cuti</SelectLabel>
+													{form.leave_id &&
+														!itemLeaves.some(
+															(leaveType) => leaveType.value === form.leave_id,
+														) && (
+															<SelectItem value={form.leave_id}>
+																Jenis cuti saat ini (diarsipkan)
+															</SelectItem>
+														)}
+													{itemLeaves?.map((item) => (
+														<SelectItem key={item.value} value={item.value}>
+															{item.label}
+														</SelectItem>
+													))}
+												</SelectGroup>
+											</SelectContent>
+										</Select>
+									</Field>
 								</div>
 								<div className="space-y-2">
-									<Label htmlFor="request-start-date">Tanggal Mulai</Label>
-									<Input
-										id="request-start-date"
-										type="date"
-										required
-										value={form.start_date}
-										onChange={(event) =>
-											setForm({ ...form, start_date: event.target.value })
-										}
-									/>
+									<Field>
+										<FieldLabel htmlFor="request-start-date">
+											Tanggal Mulai
+										</FieldLabel>
+										<Input
+											id="request-start-date"
+											type="date"
+											required
+											value={form.start_date}
+											onChange={(event) =>
+												setForm({ ...form, start_date: event.target.value })
+											}
+										/>
+									</Field>
 								</div>
 								<div className="space-y-2">
-									<Label htmlFor="request-end-date">Tanggal Selesai</Label>
-									<Input
-										id="request-end-date"
-										type="date"
-										required
-										value={form.end_date}
-										onChange={(event) =>
-											setForm({ ...form, end_date: event.target.value })
-										}
-									/>
+									<Field>
+										<FieldLabel htmlFor="request-end-date">
+											Tanggal Selesai
+										</FieldLabel>
+										<Input
+											id="request-end-date"
+											type="date"
+											required
+											value={form.end_date}
+											onChange={(event) =>
+												setForm({ ...form, end_date: event.target.value })
+											}
+										/>
+									</Field>
 								</div>
 								<div className="space-y-2 sm:col-span-2">
-									<Label htmlFor="request-reason">Alasan</Label>
-									<Textarea
-										id="request-reason"
-										required
-										maxLength={1000}
-										value={form.reason}
-										onChange={(event) =>
-											setForm({ ...form, reason: event.target.value })
-										}
-									/>
+									<Field>
+										<FieldLabel htmlFor="request-reason">Alasan</FieldLabel>
+										<Textarea
+											id="request-reason"
+											required
+											placeholder="Tulis Alasan Cuti"
+											maxLength={1000}
+											value={form.reason}
+											onChange={(event) =>
+												setForm({ ...form, reason: event.target.value })
+											}
+										/>
+									</Field>
 								</div>
 							</div>
 							<div className="flex gap-2">
-								<Button type="submit" disabled={isSaving}>
+								<Button className="min-w-24" type="submit" disabled={isSaving}>
 									{isSaving ? "Mengirim..." : editingId ? "Simpan" : "Kirim"}
 								</Button>
 								<Button
 									type="button"
 									variant="outline"
+									className="min-w-24"
 									disabled={isSaving}
 									onClick={() => setIsFormOpen(false)}
 								>
@@ -280,7 +312,7 @@ export function EmployeeLeaveRequests({
 									<TableRow key={request.id}>
 										<TableCell>{request.leave.name}</TableCell>
 										<TableCell>
-											{formatDate(request.start_date)} –{" "}
+											{formatDate(request.start_date)} -{" "}
 											{formatDate(request.end_date)}
 										</TableCell>
 										<TableCell>{requestStatusLabels[request.status]}</TableCell>
@@ -290,7 +322,7 @@ export function EmployeeLeaveRequests({
 										<TableCell>
 											{request.status === "PENDING" && request.hasConflict && (
 												<Button
-													variant="outline"
+													variant="destructive"
 													size="sm"
 													onClick={() => startEdit(request)}
 												>
@@ -413,7 +445,7 @@ export function HrLeaveRequestReview({
 										</TableCell>
 										<TableCell>{request.leave.name}</TableCell>
 										<TableCell>
-											{formatDate(request.start_date)} –{" "}
+											{formatDate(request.start_date)} -{" "}
 											{formatDate(request.end_date)}
 										</TableCell>
 										<TableCell>{request.reason}</TableCell>
@@ -423,6 +455,7 @@ export function HrLeaveRequestReview({
 												<Input
 													aria-label={`Catatan untuk ${request.employee.first_name}`}
 													maxLength={1000}
+													placeholder="Tulis Keputusan"
 													value={decisionNotes[request.id] ?? ""}
 													onChange={(event) =>
 														setDecisionNotes({

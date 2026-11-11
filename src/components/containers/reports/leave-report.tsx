@@ -2,6 +2,16 @@ import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "#/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card";
+import { Field, FieldLabel } from "#/components/ui/field";
+import { Input } from "#/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "#/components/ui/select";
 import {
 	Table,
 	TableBody,
@@ -132,6 +142,11 @@ export function LeaveReport() {
 		}
 	}
 
+	const periodItems = Object.entries(periodLabels).map(([value, label]) => ({
+		value,
+		label,
+	}));
+
 	return (
 		<div className="space-y-6">
 			<div className="flex flex-wrap items-end justify-between gap-4">
@@ -172,47 +187,56 @@ export function LeaveReport() {
 				</CardHeader>
 				<CardContent className="flex flex-wrap items-end gap-4">
 					<div className="space-y-2">
-						<label
-							htmlFor="leave-report-period"
-							className="text-sm font-medium"
-						>
-							Periode
-						</label>
-						<select
-							id="leave-report-period"
-							className="h-8 rounded-2xl border border-input bg-input/50 px-2.5 text-sm"
-							value={search.period}
-							disabled={isChangingFilter}
-							onChange={(event) =>
-								void changeFilter(event.target.value as Period)
-							}
-						>
-							{Object.entries(periodLabels).map(([value, label]) => (
-								<option key={value} value={value}>
-									{label}
-								</option>
-							))}
-						</select>
+						<Field>
+							<FieldLabel
+								htmlFor="leave-report-period"
+								className="text-sm font-medium"
+							>
+								Periode
+							</FieldLabel>
+							<Select
+								items={periodItems}
+								onValueChange={(value) => changeFilter(value as Period)}
+							>
+								<SelectTrigger>
+									<SelectValue placeholder="Pilih Periode" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup>
+										{Object.entries(periodLabels).map(([value, label]) => (
+											<SelectItem key={value} value={value}>
+												{label}
+											</SelectItem>
+										))}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						</Field>
 					</div>
 					<div className="space-y-2">
-						<label htmlFor="leave-report-date" className="text-sm font-medium">
-							Tanggal acuan
-						</label>
-						<input
-							id="leave-report-date"
-							type="date"
-							className="h-8 rounded-2xl border border-input bg-input/50 px-2.5 text-sm"
-							value={search.date}
-							disabled={isChangingFilter}
-							onChange={(event) => {
-								if (event.target.value) {
-									void changeFilter(search.period, event.target.value);
-								}
-							}}
-						/>
+						<Field>
+							<FieldLabel
+								htmlFor="leave-report-date"
+								className="text-sm font-medium"
+							>
+								Tanggal acuan
+							</FieldLabel>
+							<Input
+								id="leave-report-date"
+								type="date"
+								className="h-8 rounded-2xl border border-input bg-input/50 px-2.5 text-sm"
+								value={search.date}
+								disabled={isChangingFilter}
+								onChange={(event) => {
+									if (event.target.value) {
+										void changeFilter(search.period, event.target.value);
+									}
+								}}
+							/>
+						</Field>
 					</div>
 					<p className="pb-1 text-sm text-muted-foreground">
-						Rentang: {report.startDate} – {report.endDate}
+						Rentang: {report.startDate} - {report.endDate}
 					</p>
 				</CardContent>
 			</Card>
