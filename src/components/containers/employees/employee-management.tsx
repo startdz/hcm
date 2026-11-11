@@ -72,7 +72,7 @@ export function EmployeeManagement() {
 		setIsFormOpen(true);
 	}
 
-	async function saveEmployee(event: React.FormEvent<HTMLFormElement>) {
+	async function saveEmployee(event: React.SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
 		setIsSaving(true);
 		setErrorMessage(null);
